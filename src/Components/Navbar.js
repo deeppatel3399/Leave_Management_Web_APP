@@ -43,11 +43,11 @@ const Navbar = () => {
               <i className="fa-sharp fa-solid fa-bars text-2xl text-white hover:text-primary"></i>
             </button><br/>
 
-            <ul id="menu" className='w-28 rounded bg-primary-dark text-white font-bold h-34 absolute top-10 right-0'>
+            {/* <ul id="menu" className='w-28 rounded bg-primary-dark text-white font-bold h-34 absolute top-10 right-0'>
               <li className='pl-3 py-3'>Home</li>
               <li className='pl-3 py-3'>Leave Request</li>
               <li className='pl-3 py-3'>Holidays</li>
-            </ul>          
+            </ul>           */}
           </div>
 
           <div className='max-lg:hidden'>
