@@ -109,6 +109,11 @@ const fetchdata = ()=>{
       console.log(data.data);
       setUserDataFName(data.data.data.fname);
       setUserDataLName(data.data.data.lname);
+      if(data.data.status===498)
+      {
+        window.localStorage.clear();
+        window.location.href = '/';
+      }
      })
 
     // fetch("http://localhost:3001/userdata",{

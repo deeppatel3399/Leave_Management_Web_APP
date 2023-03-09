@@ -6,6 +6,8 @@ const Navbar = () => {
 
   const[clickVal,setClickVal] = useState(false);
 
+  const isLogIn = window.localStorage.getItem("loginval");
+
     const btnValFun = ()=>{
       if(clickVal===false)
       {
@@ -16,6 +18,11 @@ const Navbar = () => {
         document.getElementById('menu').style.display = "block";
         setClickVal(false);
       }
+    };
+    
+    const logoutbtn = ()=>{
+        window.localStorage.clear();
+        window.location.href = '/';
     };
 
     useEffect(()=>{
@@ -44,14 +51,14 @@ const Navbar = () => {
             </button><br/>
 
             <ul id="menu" className='w-28 rounded bg-primary-dark text-white font-bold h-34 absolute top-10 right-0'>
-              <li className='pl-3 py-3'>Home</li>
-              <li className='pl-3 py-3'>Leave Request</li>
-              <li className='pl-3 py-3'>Holidays</li>
+              <li className='pl-3 py-3'><NavLink to="/">Home</NavLink></li>
+              <li className='pl-3 py-3'><NavLink to="/leavereq">Leave Request</NavLink></li>
+              <li className='pl-3 py-3'><NavLink to="/holidaylist">Holiday List</NavLink></li>
             </ul>          
           </div>
 
           <div className='max-lg:hidden'>
-                <NavLink className='navlinkstyle' to="/">Home</NavLink>
+            {isLogIn?<button className='navlinkstyle' onClick={logoutbtn}>Log Out</button>:<NavLink className='navlinkstyle' to="/">Home</NavLink>}
                 <NavLink className='navlinkstyle' to="/leavereq">Leave Request</NavLink>
                 <NavLink className='navlinkstyle' to="/holidaylist">Holiday List</NavLink>
           </div>

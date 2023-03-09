@@ -61,7 +61,7 @@ app.post("/login",async (req,res)=>{
 
    if(await bcrypt.compare(password,existUser.password))
    {
-    const jwtToken = jwt.sign({email:existUser.email},jwtKey);
+    const jwtToken = jwt.sign({email:existUser.email},jwtKey,{expiresIn:5});
 
     if(res.status(201))
     {
@@ -87,10 +87,10 @@ app.post("/userdata",async (req,res)=>{
         User.findOne({email:verifyUserEmail}).then((data)=>{
             res.json({status:200,data:data});
         }).catch((err)=>{
-            res.send({error:"Erro",data:err});
+            res.json({error:"Erro",data:err});
         })
     }
     catch(err){
-       res.send({data:err});
+      return res.json({data:"Token Expired",status:498});
     }
 });

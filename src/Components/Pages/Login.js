@@ -73,6 +73,7 @@ const Login = () => {
       if(data.data.status===200)
       {
           window.localStorage.setItem("token",data.data.token);
+          window.localStorage.setItem("loginval",true);
           window.location.href = "./leavereq";
       }
       if(data.data.status===404)
@@ -137,7 +138,6 @@ const Login = () => {
     {
        setDisVal(true);
     }
-
  },[email,password,checkEmail,passCheck,emailErr,passErr])
 
 
