@@ -1,0 +1,101 @@
+{
+    "LEAVE_DATA":
+    [
+      {
+        "id":"1",
+        "month": "January",
+        "date": "26th Jan 2023",
+        "day":"Thursday",
+        "type":"Republic Day",
+        "no_of_days":"1"
+      },
+      {
+        "id":"2",
+        "month": "March",
+        "date": "8th March 2023",
+        "day":"Wednesday",
+        "type":"Holi",
+        "no_of_days":"1"
+      },
+      {
+        "id":"3",
+        "month": "April",
+        "date": "7th April 2023",
+        "day":"Friday",
+        "type":"Good Friday",
+        "no_of_days":"1"
+      },
+      {
+        "id":"4",
+        "month": "April",
+        "date": "21st April 2023",
+        "day":"Friday",
+        "type":"Eid al-Fitr",
+        "no_of_days":"1(Optional)"
+      },
+      {
+        "id":"5",
+        "month": "August",
+        "date": "15th August 2023",
+        "day":"Tuesday",
+        "type":"Independence Day",
+        "no_of_days":"1"
+      },
+      {
+        "id":"6",
+        "month": "August",
+        "date": "30th August 2023",
+        "day":"Wednesday",
+        "type":"Rakshabandhan",
+        "no_of_days":"1"
+      },
+      {
+        "id":"7",
+        "month": "September",
+        "date": "7th September 2023",
+        "day":"Thursday",
+        "type":"Janmashtami",
+        "no_of_days":"1(Optional)"
+      },
+      {
+        "id":"8",
+        "month": "September",
+        "date": "19th September 2023",
+        "day":"Tuesday",
+        "type":"Ganesh Chaturthi",
+        "no_of_days":"1(Optional)"
+      },
+      {
+        "id":"9",
+        "month": "October",
+        "date": "24th October 2023",
+        "day":"Tuesday",
+        "type":"Dussehra",
+        "no_of_days":"1"
+      },
+      {
+        "id":"10",
+        "month": "November",
+        "date": "13th November 2023",
+        "day":"Monday",
+        "type":"Diwali (New Year)",
+        "no_of_days":"1"
+      },
+      {
+        "id":"11",
+        "month": "November",
+        "date": "14th November 2023",
+        "day":"Tuesday",
+        "type":"Diwali (Bhai Dooj)",
+        "no_of_days":"1"
+      },
+      {
+        "id":"12",
+        "month": "December",
+        "date": "25th December 2023",
+        "day":"Monday",
+        "type":"Christmas",
+        "no_of_days":"1"
+      }
+    ]
+}
