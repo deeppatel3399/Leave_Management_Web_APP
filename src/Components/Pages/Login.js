@@ -81,32 +81,6 @@ const Login = () => {
           alert("Invalid Credentials");
       }
      })
-
-    // fetch("http://localhost:3001/login",{
-    //     method:"POST",
-    //     crossDomain: true,
-    //     headers:{
-    //         "Content-Type":"application/json",
-    //         Accept:"application/json",
-    //         "Access-Control-Allow-Origin":"*",
-    //     },
-    //     body:JSON.stringify({
-    //         email,
-    //         password
-    //     })
-    //    }).then((res)=>res.json())
-    //    .then((data)=>{
-    //     console.log(data);
-    //     if(data.status===200)
-    //     {
-    //         window.localStorage.setItem("token",data.token);
-    //         window.location.href = "./leavereq";
-    //     }
-    //     if(data.status===404)
-    //     {
-    //         alert("Invalid Credentials");
-    //     }
-    //    })
  };
  
  useEffect(()=>{
@@ -172,7 +146,7 @@ const Login = () => {
 
              <div className='cardfootersection'>
                 <span><input className='mr-2 h-4' type='checkbox'/><NavLink className="cardfooternavigate">Remember Me</NavLink></span>
-                <NavLink className="cardfooternavigate" to="/forgot">Forgot Password</NavLink>
+                <NavLink className="cardfooternavigate" to="/forgotpassword">Forgot Password</NavLink>
              </div>
 
            </div>

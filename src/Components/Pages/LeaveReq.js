@@ -114,6 +114,10 @@ const fetchdata = ()=>{
         window.localStorage.clear();
         window.location.href = '/';
       }
+      else
+      {
+        window.localStorage.setItem("loginval",true);
+      }
      })
 
     // fetch("http://localhost:3001/userdata",{

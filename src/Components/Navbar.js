@@ -51,7 +51,7 @@ const Navbar = () => {
             </button><br/>
 
             <ul id="menu" className='w-28 rounded bg-primary-dark text-white font-bold h-34 absolute top-10 right-0'>
-              <li className='pl-3 py-3'><NavLink to="/">Home</NavLink></li>
+              <li className='pl-3 py-3'>{isLogIn?<button onClick={logoutbtn}>Log Out</button>:<NavLink to="/">Home</NavLink>}</li>
               <li className='pl-3 py-3'><NavLink to="/leavereq">Leave Request</NavLink></li>
               <li className='pl-3 py-3'><NavLink to="/holidaylist">Holiday List</NavLink></li>
             </ul>          

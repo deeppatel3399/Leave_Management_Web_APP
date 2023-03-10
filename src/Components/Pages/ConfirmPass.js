@@ -1,141 +1,224 @@
 import React, { useEffect, useState } from 'react';
 import '../../App.css';
-import { NavLink } from 'react-router-dom';
+import axios from 'axios';
 
 const ConfirmPass = () => {
 
-  const[password,setPassword] = useState("");
-  const[confPassword,setConfPassword] = useState("");
+  const[email,setEmail] = useState("");
+  const[newPassword,setNewPassword] = useState("");
+  const[confNewPassword,setConfNewPassword] = useState("");
+  const[currentPassword,setCurrentPassword] = useState("");
   const[disval,setDisVal] = useState(true);
-  const[passErr,setPassErr] = useState("");
-  const[confPassErr,setConfPassErr] = useState("");
+  const[newPassErr,setNewPassErr] = useState("");
+  const[confNewPassErr,setConfNewPassErr] = useState("");
+  const[currentPassErr,setCurrentPassErr] = useState("");
 
-  const passblur = ()=>
+  const newpassblur = ()=>
   {
-     if(password==="")
+     if(newPassword==="")
      {
-         setPassErr("Enter New Password");
+         setNewPassErr("Enter New Password");
+     }
+     else if(currentPassword===newPassword)
+     {
+         setNewPassErr("Current and New Password must be unique");
+         setDisVal(true);
      }
      else
      {
-         if(password.match(passCheck))
+         if(newPassword.match(passCheck))
          {
-             setPassErr("");
+             setNewPassErr("");
          }
          else
          {
-             setPassErr("Minimum eight characters At least one letter One number One special character");
+             setNewPassErr("Minimum eight characters At least one letter One number One special character");
          }
      }
  
   };
-  const confpassblur = ()=>
+  const confnewpassblur = ()=>
   {
-     if(confPassword==="")
+     if(confNewPassword==="")
      {
-         setConfPassErr("Enter Confirm Password");
+         setConfNewPassErr("Enter Confirm Password");
+     }
+     else if(currentPassword===confNewPassword)
+     {
+         setConfNewPassErr("Current and New Password must be unique");
+         setDisVal(true);
      }
      else
      {
-         if(confPassword!==password)
+         if(confNewPassword!==newPassword)
          {
-          setConfPassErr("Password Not match");
+          setConfNewPassErr("Password Not match");
          }
          else
          {
-          setConfPassErr("");
+          setConfNewPassErr("");
          }
      }
 
  
+  };
+  const currentpassblur = ()=>
+  {
+     if(currentPassword==="")
+     {
+         setCurrentPassErr("Enter Current Password");
+         setDisVal(true);
+     }
+     else
+     {
+         if(currentPassword.match(passCheck))
+         {
+             setCurrentPassErr("");
+         }
+         else
+         {
+             setCurrentPassErr("Invalid Password");
+             setDisVal(true);
+         }
+     }
   };
   const confirmpassbtn = ()=>{
-    if(password==="")
+    if(newPassword==="")
     {
-       setPassErr("Enter Password");
+       setNewPassErr("Enter Password");
     }
-    if(confPassword==="")
+    if(confNewPassword==="")
     {
-     setConfPassErr("Enter Confirm Password");
+     setConfNewPassErr("Enter Confirm Password");
     }
+    if(currentPassword==="")
+    {
+        setCurrentPassErr("Enter Current Password");
+    }
+
+    axios.post("http://localhost:3001/updatepassword",{
+        email,
+        currentPassword,
+        newPassword
+    }).then((data)=>{
+
+        if(data.data.status===200)
+        {
+            alert("Password Update");
+            window.location.href = "/";
+            window.localStorage.clear();
+        }
+        else
+        {
+            alert("Invalid Current Password");
+        }
+    })
+
+
   };
    
   const passCheck = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
 
    useEffect(()=>{
 
-    if(password==="")
+    setEmail(window.localStorage.getItem("email"));
+
+    if(newPassword==="")
     {
         setDisVal(true);
     }
-    else if(password.match(passCheck))
+    else if(currentPassword===newPassword)
+    {
+        setNewPassErr("Current and New Password must be unique");
+        setDisVal(true);
+    }
+    else if(newPassword.match(passCheck))
     {
         setDisVal(false);
-        setPassErr("");
+        setNewPassErr("");
     }
     else
     {
        setDisVal(true);
     }
 
-    if(confPassword==="")
+    if(confNewPassword==="")
     {
         setDisVal(true);
     }
-    else if(password===confPassword)
+    else if(currentPassword===confNewPassword)
+    {
+        setConfNewPassErr("Current and New Password must be unique");
+        setDisVal(true);
+    }
+    else if(newPassword===confNewPassword)
     {
         setDisVal(false);
-        setConfPassErr("");
+        setConfNewPassErr("");
     }
     else
     {
        setDisVal(true);
     }
+    if(currentPassword==="")
+    {
+        setDisVal(true);
+    }
+    else if(currentPassword.match(passCheck))
+    {
+        setCurrentPassErr("");
+    }
+    else
+    {
+        setDisVal(true);
+    }
 
-
-   },[password,confPassword,passErr,confPassErr,disval]);
+   },[newPassword,confNewPassword,newPassErr,confNewPassErr,disval,passCheck,currentPassword,currentPassErr]);
 
 
   return (
     <>
-          <div className='confirmpassmaincontainer'>
+      <div className='confirmpassmaincontainer'>
 
-<div className='confirmpasscardcontainer'>
+        <div className='confirmpasscardcontainer'>
 
-     <div className='confirmpasscardheading'>Update Password</div>
+            <div className='confirmpasscardheading'>Update Password</div>
 
-     <div className='confirmpasscardstyle'>
+            <div className='confirmpasscardstyle'>
 
-       <div className='text-center mb-5'>
+            <div className='text-center mb-5'>
 
-         <p className='text-center'><i className="fa-solid fa-user usericon"></i></p>
-         <NavLink className="linktoregister" to='/'><i class="fa-solid fa-backward mr-5"></i>Go Back To Login Page</NavLink>
+                <p className='text-center'><i className="fa-solid fa-user usericon"></i></p>
 
-       </div>
+            </div>
 
-       <div className='confirmpassinputsection'>
-      
-       <p className='inputboxetitle flex justify-start'>Password<span className='reuiredfield'>*</span></p>
-      <input className='confirmpassinputsstyle' name='password' id='password' value={password} onChange={(e)=>{setPassword(e.target.value)}} onBlur={passblur} type="password" placeholder='Enter New Password'/>
-       <span className='confirmpassinputerr'>{passErr}</span>
-  
-       <p className='inputboxetitle flex justify-start mt-5'>Confirm Password<span className='reuiredfield'>*</span></p>
-       <input className='confirmpassinputsstyle' name='confirmpassword' id='confpassword' value={confPassword} onChange={(e)=>{setConfPassword(e.target.value)}} onBlur={confpassblur} type="password" placeholder='Re-Enter New Password'/>
-       <span className='confirmpassinputerr'>{confPassErr}</span>
+            <div className='confirmpassinputsection'>
 
-       </div>
+            <p className='inputboxetitle flex justify-start'>Current Password<span className='reuiredfield'>*</span></p>
+            <input className='confirmpassinputsstyle' name='currentpassword' id='currentpassword' value={currentPassword} onChange={(e)=>{setCurrentPassword(e.target.value)}} onBlur={currentpassblur} type="password" placeholder='Enter Your Current Password'/>
+            <span className='confirmpassinputerr'>{currentPassErr}</span>
+            
+            <p className='inputboxetitle mt-5 flex justify-start'>New Password<span className='reuiredfield'>*</span></p>
+            <input className='confirmpassinputsstyle' name='password' id='password' value={newPassword} onChange={(e)=>{setNewPassword(e.target.value)}} onBlur={newpassblur} type="password" placeholder='Enter New Password'/>
+            <span className='confirmpassinputerr'>{newPassErr}</span>
+        
+            <p className='inputboxetitle flex justify-start mt-5'>Confirm New Password<span className='reuiredfield'>*</span></p>
+            <input className='confirmpassinputsstyle' name='confirmpassword' id='confpassword' value={confNewPassword} onChange={(e)=>{setConfNewPassword(e.target.value)}} onBlur={confnewpassblur} type="password" placeholder='Re-Enter New Password'/>
+            <span className='confirmpassinputerr'>{confNewPassErr}</span>
 
-     </div>
+            </div>
 
-     <div className='text-center'>
+            </div>
 
-        <button onClick={confirmpassbtn} disabled={disval} className='confirmpassbtnstyle'>Update Password<i class="fa-solid fa-envelope ml-5"></i></button>
+            <div className='text-center'>
 
-     </div>
+                <button onClick={confirmpassbtn} disabled={disval} className='confirmpassbtnstyle'>Update Password</button>
 
-</div>
+            </div>
 
-</div>
+        </div>
+
+        </div>
     </>
   );
 };
