@@ -43,12 +43,12 @@ const ForgotPass = () => {
             setDisVal(false);
         }
 
-        axios.post("http://localhost:3001/forgotpassword",{
+        axios.post("/forgotpassword",{
             email
         }).then((data)=>{
             if(data.data.status===200)
             {
-                window.location.href = "/newpassword";
+                window.location.href = "/resetpassword";
                 window.localStorage.setItem("email",email);
                 window.localStorage.setItem("emailval",true);
             }

@@ -18,6 +18,9 @@ module.exports = {
         white: "#ffffff",
         error: "#cc0000",
         "error-dark": "#990000",
+        success: "#3CD046", 
+        "success-light": "#E6FFFA", 
+        "success-dark": "#008000"
       },
     },
   },

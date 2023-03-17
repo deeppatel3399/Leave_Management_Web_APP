@@ -96,10 +96,10 @@ const ConfirmPass = () => {
         setCurrentPassErr("Enter Current Password");
     }
 
-    axios.post("http://localhost:3001/updatepassword",{
-        email,
+    axios.post("/updatepassword",{
         currentPassword,
-        newPassword
+        newPassword,
+        token:window.localStorage.getItem("token")
     }).then((data)=>{
 
         if(data.data.status===200)

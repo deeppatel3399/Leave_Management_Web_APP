@@ -64,17 +64,25 @@ const Login = () => {
        setPassErr("Enter Password");
     }
 
-    axios.post("http://localhost:3001/login",{
+    axios.post("/login",{
         email,
         password
      })
      .then((data)=>{
-      console.log(data.data);
+        
       if(data.data.status===200)
       {
           window.localStorage.setItem("token",data.data.token);
+          if(data.data.role==="E")
+          {
           window.localStorage.setItem("loginval",true);
           window.location.href = "./leavereq";
+          }
+          else
+          {
+            window.localStorage.setItem("managerloginval",true);
+            window.location.href = "./dash";
+          }
       }
       if(data.data.status===404)
       {
@@ -84,6 +92,8 @@ const Login = () => {
  };
  
  useEffect(()=>{
+
+    window.localStorage.clear();
 
     if(email==="")
     {
