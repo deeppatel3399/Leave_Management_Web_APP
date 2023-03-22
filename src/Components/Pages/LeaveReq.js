@@ -126,8 +126,6 @@ const LeaveReq = () => {
 
    useEffect(() => {
 
-   
-
     de();
 
     const fetchdata = () => {

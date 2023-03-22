@@ -161,6 +161,10 @@ const Register = () => {
           window.location.href = "./"
           alert("Register Successfully...!");
       }
+      if(data.data.status===404)
+      {
+        alert("Wrong ManagerId");
+      }
      })  
   };
   
@@ -240,7 +244,7 @@ const Register = () => {
             setDisVal(false);
         }
     }
-  },[email,password,checkEmail,passCheck,confPassword,fName,lName,fNameErr,lNameErr,managerId,managerIdErr,manageridcheck])
+  },[email,password,checkEmail,passCheck,confPassword,fName,lName,fNameErr,lNameErr,managerId,managerIdErr,manageridcheck,role])
 
   console.log(role);
 

@@ -1,384 +1,287 @@
-                            /* Navbar styel*/
-.navbarcontainer
-{
-   @apply h-14 bg-primary-dark flex justify-between px-10 py-3;
+/* Navbar styel*/
+.navbarcontainer {
+  @apply h-14 bg-primary-dark flex justify-between px-10 py-3;
 }
-.leftnav
-{
-    @apply text-xl text-white font-bold hover:text-primary;
+.leftnav {
+  @apply text-white font-bold hover:text-primary;
 }
-.navlinkstyle
-{
-    @apply text-xl text-white font-bold hover:text-primary mr-10;
+.navlinkstyle {
+  @apply  text-white font-bold hover:text-primary mr-10;
 }
-                            /* Navbar styel*/
+/* Navbar styel*/
 
-                            
-                            
-                            /* leave Request page style */
-.maincontainer
-{
+/* leave Request page style */
+.maincontainer {
   @apply bg-light lg:w-full lg:p-10 md:w-full md:p-10 sm:w-full;
 }
-.headingtxt
-{
-    @apply mb-5 font-bold text-3xl text-primary text-center lg:p-0 md:p-0 sm:p-3;
+.headingtxt {
+  @apply mb-5 font-bold text-3xl text-primary text-center lg:p-0 md:p-0 sm:p-3;
 }
-.leaveText
-{
-    @apply mb-3 font-semibold text-xl text-error text-center lg:p-0 md:p-0 sm:p-3
+.leaveText {
+  @apply mb-3 font-semibold text-xl text-error text-center lg:p-0 md:p-0 sm:p-3;
 }
-.iconstyle
-{
-    @apply  text-white mr-3;
+.iconstyle {
+  @apply text-white mr-3;
 }
-.inputboxes
-{
-    @apply lg:flex lg:flex-row mt-5 pl-5 md:flex md:flex-row sm:flex sm:flex-col;
+.inputboxes {
+  @apply lg:flex lg:flex-row mt-5 pl-5 md:flex md:flex-row sm:flex sm:flex-col;
 }
-.inputboxetitle
-{
+.inputboxetitle {
   @apply text-primary-dark font-bold text-xl;
 }
-.reuiredfield
-{
-    @apply text-error;
+.reuiredfield {
+  @apply text-error;
 }
-.inputboxstyle
-{
-    @apply w-80 h-12 md:w-3/4 border-solid border-2 rounded required:border-error;
+.inputboxstyle {
+  @apply w-80 h-12 md:w-3/4 border-solid border-2 rounded required:border-error;
 }
-.validmsg
-{
-    @apply text-error-dark text-sm italic;
+.validmsg {
+  @apply text-error-dark text-sm italic;
 }
-.selectboxstyle
-{
-    @apply w-80 border-solid border-2  required:border-error h-10;
+.selectboxstyle {
+  @apply w-80 border-solid border-2  required:border-error h-10;
 }
-.daysdiv
-{
-    @apply w-20 border-solid border-2  bg-white text-black required:border-error;
+.daysdiv {
+  @apply w-20 border-solid border-2  bg-white text-black required:border-error;
 }
-.notestyle
-{
-    @apply w-80 border-solid border-2;
+.notestyle {
+  @apply w-80 border-solid border-2;
 }
-.btnsection
-{
-    @apply flex flex-row w-full h-24 bg-gray-300 pt-10;
+.btnsection {
+  @apply flex flex-row w-full h-24 bg-gray-300 pt-10;
 }
-.submitbtnstyle
-{
-    @apply bg-primary hover:bg-primary-dark text-white font-bold text-lg h-8  ml-16 rounded w-40 text-center disabled:hover:bg-gray-600 disabled:cursor-not-allowed disabled:bg-gray-600;
+.submitbtnstyle {
+  @apply bg-primary hover:bg-primary-dark text-white font-bold text-lg h-8  ml-16 rounded w-40 text-center disabled:hover:bg-gray-600 disabled:cursor-not-allowed disabled:bg-gray-600;
 }
-.cancelbtnstyle
-{
-    @apply text-primary hover:text-primary-dark font-bold text-lg h-8 text-center ml-5;
-}   
-                            /* leave Request page style */
+.cancelbtnstyle {
+  @apply text-primary hover:text-primary-dark font-bold text-lg h-8 text-center ml-5;
+}
+/* leave Request page style */
 
-
-
-                            /* LeaveList Page style */
-.listmaincontainer
-{
+/* LeaveList Page style */
+.listmaincontainer {
   @apply bg-primary py-5 px-10;
 }
-.listheading
-{ 
-  @apply  text-3xl pb-5 text-white font-extrabold text-center;
+.listheading {
+  @apply text-3xl pb-5 text-white font-extrabold text-center;
 }
-.tablecontainer
-{
+.tablecontainer {
   @apply flex justify-center my-10;
 }
-.tablestyle
-{
-    @apply bg-light table-auto border-collapse border-2 border-spacing-2 border-black text-center;
+.tablestyle {
+  @apply bg-light table-auto border-collapse border-2 border-spacing-2 border-black text-center;
 }
-.tableheading
-{
-   @apply border border-black w-40;
+.tableheading {
+  @apply border border-black w-40;
 }
-.tablecoldata
-{
-   @apply border border-black text-center;
+.tablecoldata {
+  @apply border border-black text-center;
 }
-hr{
-    height: 3px;
-    border: none;
-    background: black;
+hr {
+  height: 3px;
+  border: none;
+  background: black;
 }
-                            /* LeaveList Page style*/
+/* LeaveList Page style*/
 
+/* Login page style */
 
-
-                            /* Login page style */
-
-.loginmaincontainer
-{
-    @apply grid grid-cols-12 mt-5 mb-10;
+.loginmaincontainer {
+  @apply grid grid-cols-12 mt-5 mb-10;
 }
-.logincardcontainer
-{
-    @apply lg:col-start-4 lg:col-span-6 md:col-start-3 md:col-span-8 sm:col-start-2 sm:col-span-10;
+.logincardcontainer {
+  @apply lg:col-start-4 lg:col-span-6 md:col-start-3 md:col-span-8 sm:col-start-2 sm:col-span-10;
 }
-.logincardheading
-{
-    @apply my-5 text-center text-3xl text-primary-dark font-bold;
+.logincardheading {
+  @apply my-5 text-center text-3xl text-primary-dark font-bold;
 }
-.logincardstyle
-{
-    @apply px-16 py-10 sm:px-10 bg-light 
+.logincardstyle {
+  @apply px-16 py-10 sm:px-10 bg-light 
     rounded-xl;
 }
-.usericon
-{
-    @apply text-3xl text-primary-dark font-bold;
+.usericon {
+  @apply text-3xl text-primary-dark font-bold;
 }
-.linktoregister
-{
-    @apply text-xl text-primary-dark font-bold;
+.linktoregister {
+  @apply text-xl text-primary-dark font-bold;
 }
-.logininputsection
-{
-    @apply text-center mb-5 lg:mx-16 md:mx-10 sm:mx-0;
+.logininputsection {
+  @apply text-center mb-5 lg:mx-16 md:mx-10 sm:mx-0;
 }
-.logininputsstyle
-{
-    @apply w-full rounded p-2 font-semibold;
+.logininputsstyle {
+  @apply w-full rounded p-2 font-semibold;
 }
-.logininputerr
-{
-    @apply text-sm flex justify-start text-error-dark italic;
+.logininputerr {
+  @apply text-sm flex justify-start text-error-dark italic;
 }
-.cardfootersection
-{
-    @apply flex justify-between lg:mx-16 md:mx-10 sm:mx-0;
+.cardfootersection {
+  @apply flex justify-between lg:mx-16 md:mx-10 sm:mx-0;
 }
-.cardfooternavigate
-{
-    @apply text-lg text-primary-dark font-semibold;
+.cardfooternavigate {
+  @apply text-lg text-primary-dark font-semibold;
 }
-.loginbtnstyle
-{
-    @apply border disabled:cursor-not-allowed disabled:hover:bg-slate-600 disabled:bg-slate-600 rounded-lg -top-6 h-10 relative hover:bg-primary bg-primary-dark text-white text-center text-lg font-bold w-40;
+.loginbtnstyle {
+  @apply border disabled:cursor-not-allowed disabled:hover:bg-slate-600 disabled:bg-slate-600 rounded-lg -top-6 h-10 relative hover:bg-primary bg-primary-dark text-white text-center text-lg font-bold w-40;
 }
 
-                            /* Login page style */
+/* Login page style */
 
+/* Register page style */
 
+.registermaincontainer {
+  @apply grid grid-cols-12 mt-5 mb-10;
+}
+.registercardcontainer {
+  @apply lg:col-start-4 lg:col-span-6 md:col-start-3 md:col-span-8 sm:col-start-2 sm:col-span-10;
+}
+.regcardheading {
+  @apply my-5 text-center text-3xl text-primary-dark font-bold;
+}
+.regcardstyle {
+  @apply px-16 py-10 sm:px-10 bg-light rounded-xl;
+}
+.linktologin {
+  @apply text-xl text-primary-dark font-bold;
+}
+.reginputsection {
+  @apply text-center mb-5 lg:mx-16 md:mx-10 sm:mx-0;
+}
+.reginputsstyle {
+  @apply w-full rounded p-2 font-semibold;
+}
+.reginputerr {
+  @apply text-sm flex justify-start text-error-dark italic;
+}
+.cardfootersection {
+  @apply flex justify-between lg:mx-16 md:mx-10 sm:mx-0;
+}
+.cardfooternavigate {
+  @apply text-lg text-primary-dark font-semibold;
+}
+.regbtnstyle {
+  @apply border disabled:cursor-not-allowed disabled:hover:bg-slate-600 disabled:bg-slate-600 rounded-lg -top-6 h-10 relative hover:bg-primary bg-primary-dark text-white text-center text-lg font-bold w-40;
+}
 
+/* Register page style */
 
-                            /* Register page style */
-
-.registermaincontainer
-{
-    @apply grid grid-cols-12 mt-5 mb-10;
+/* Confirm_password page style */
+.confirmpassmaincontainer {
+  @apply grid grid-cols-12 mt-5 mb-10;
 }
-.registercardcontainer
-{
-    @apply lg:col-start-4 lg:col-span-6 md:col-start-3 md:col-span-8 sm:col-start-2 sm:col-span-10;
+.confirmpasscardcontainer {
+  @apply lg:col-start-4 lg:col-span-6 md:col-start-3 md:col-span-8 sm:col-start-2 sm:col-span-10;
 }
-.regcardheading
-{
-    @apply my-5 text-center text-3xl text-primary-dark font-bold;
+.confirmpasscardheading {
+  @apply my-5 text-center text-3xl text-primary-dark font-bold;
 }
-.regcardstyle
-{
-    @apply px-16 py-10 sm:px-10 bg-light rounded-xl;
-}
-.linktologin
-{
-    @apply text-xl text-primary-dark font-bold;
-}
-.reginputsection
-{
-    @apply text-center mb-5 lg:mx-16 md:mx-10 sm:mx-0;
-}
-.reginputsstyle
-{
-    @apply w-full rounded p-2 font-semibold;
-}
-.reginputerr
-{
-    @apply text-sm flex justify-start text-error-dark italic;
-}
-.cardfootersection
-{
-    @apply flex justify-between lg:mx-16 md:mx-10 sm:mx-0;
-}
-.cardfooternavigate
-{
-    @apply text-lg text-primary-dark font-semibold;
-}
-.regbtnstyle
-{
-    @apply border disabled:cursor-not-allowed disabled:hover:bg-slate-600 disabled:bg-slate-600 rounded-lg -top-6 h-10 relative hover:bg-primary bg-primary-dark text-white text-center text-lg font-bold w-40;
-}
-                            
-                            /* Register page style */
-
-                            /* Confirm_password page style */
-.confirmpassmaincontainer
-{
-    @apply grid grid-cols-12 mt-5 mb-10;
-}
-.confirmpasscardcontainer
-{
-    @apply lg:col-start-4 lg:col-span-6 md:col-start-3 md:col-span-8 sm:col-start-2 sm:col-span-10;
-}
-.confirmpasscardheading
-{
-    @apply my-5 text-center text-3xl text-primary-dark font-bold;
-}
-.confirmpasscardstyle
-{
-    @apply px-16 py-10 sm:px-10 bg-light 
+.confirmpasscardstyle {
+  @apply px-16 py-10 sm:px-10 bg-light 
     rounded-xl;
 }
-.usericon
-{
-    @apply text-3xl text-primary-dark font-bold;
+.usericon {
+  @apply text-3xl text-primary-dark font-bold;
 }
-.linktoregister
-{
-    @apply text-xl text-primary-dark font-bold;
+.linktoregister {
+  @apply text-xl text-primary-dark font-bold;
 }
-.confirmpassinputsection
-{
-    @apply text-center mb-5 lg:mx-16 md:mx-10 sm:mx-0;
+.confirmpassinputsection {
+  @apply text-center mb-5 lg:mx-16 md:mx-10 sm:mx-0;
 }
-.confirmpassinputsstyle
-{
-    @apply w-full rounded p-2 font-semibold;
+.confirmpassinputsstyle {
+  @apply w-full rounded p-2 font-semibold;
 }
-.confirmpassinputerr
-{
-    @apply text-sm flex justify-start text-error-dark italic;
+.confirmpassinputerr {
+  @apply text-sm flex justify-start text-error-dark italic;
 }
-.cardfootersection
-{
-    @apply flex justify-between lg:mx-16 md:mx-10 sm:mx-0;
+.cardfootersection {
+  @apply flex justify-between lg:mx-16 md:mx-10 sm:mx-0;
 }
-.cardfooternavigate
-{
-    @apply text-lg text-primary-dark font-semibold;
+.cardfooternavigate {
+  @apply text-lg text-primary-dark font-semibold;
 }
-.confirmpassbtnstyle
-{
-    @apply border disabled:cursor-not-allowed disabled:hover:bg-slate-600 disabled:bg-slate-600 rounded-lg -top-6 h-10 relative hover:bg-primary bg-primary-dark text-white text-center text-lg font-bold w-56;
+.confirmpassbtnstyle {
+  @apply border disabled:cursor-not-allowed disabled:hover:bg-slate-600 disabled:bg-slate-600 rounded-lg -top-6 h-10 relative hover:bg-primary bg-primary-dark text-white text-center text-lg font-bold w-56;
 }
 
-                            /* Confirm_password page style */
+/* Confirm_password page style */
 
-
-                            /* forgot password page style */
-.forgotpassmaincontainer
-{
-    @apply grid grid-cols-12 mt-5 mb-10;
+/* forgot password page style */
+.forgotpassmaincontainer {
+  @apply grid grid-cols-12 mt-5 mb-10;
 }
-.forgotpasscardcontainer
-{
-    @apply lg:col-start-4 lg:col-span-6 md:col-start-3 md:col-span-8 sm:col-start-2 sm:col-span-10;
+.forgotpasscardcontainer {
+  @apply lg:col-start-4 lg:col-span-6 md:col-start-3 md:col-span-8 sm:col-start-2 sm:col-span-10;
 }
-.forgotpasscardheading
-{
-    @apply my-5 text-center text-3xl text-primary-dark font-bold;
+.forgotpasscardheading {
+  @apply my-5 text-center text-3xl text-primary-dark font-bold;
 }
-.forgotpasscardstyle
-{
-    @apply px-16 py-10 sm:px-10 bg-light 
+.forgotpasscardstyle {
+  @apply px-16 py-10 sm:px-10 bg-light 
     rounded-xl;
 }
-.usericon
-{
-    @apply text-3xl text-primary-dark font-bold;
+.usericon {
+  @apply text-3xl text-primary-dark font-bold;
 }
-.linktoregister
-{
-    @apply text-xl text-primary-dark font-bold;
+.linktoregister {
+  @apply text-xl text-primary-dark font-bold;
 }
-.forgotpassinputsection
-{
-    @apply text-center mb-5 lg:mx-16 md:mx-10 sm:mx-0;
+.forgotpassinputsection {
+  @apply text-center mb-5 lg:mx-16 md:mx-10 sm:mx-0;
 }
-.forgotpassinputsstyle
-{
-    @apply w-full rounded p-2 font-semibold;
+.forgotpassinputsstyle {
+  @apply w-full rounded p-2 font-semibold;
 }
-.forgotpassinputerr
-{
-    @apply text-sm flex justify-start text-error-dark italic;
+.forgotpassinputerr {
+  @apply text-sm flex justify-start text-error-dark italic;
 }
-.cardfootersection
-{
-    @apply flex justify-between lg:mx-16 md:mx-10 sm:mx-0;
+.cardfootersection {
+  @apply flex justify-between lg:mx-16 md:mx-10 sm:mx-0;
 }
-.cardfooternavigate
-{
-    @apply text-lg text-primary-dark font-semibold;
+.cardfooternavigate {
+  @apply text-lg text-primary-dark font-semibold;
 }
-.nextbtnstyle
-{
-    @apply border disabled:cursor-not-allowed disabled:hover:bg-slate-600 disabled:bg-slate-600 rounded-lg -top-6 h-10 relative hover:bg-primary bg-primary-dark text-white text-center text-lg font-bold w-48;
+.nextbtnstyle {
+  @apply border disabled:cursor-not-allowed disabled:hover:bg-slate-600 disabled:bg-slate-600 rounded-lg -top-6 h-10 relative hover:bg-primary bg-primary-dark text-white text-center text-lg font-bold w-48;
 }
-                            /* forgot password page style */
+/* forgot password page style */
 
+/* reset password page style */
 
-
-
-
-                           /* reset password page style */
-
-.ResetPassmaincontainer
-{
-    @apply grid grid-cols-12 mt-5 mb-10;
+.ResetPassmaincontainer {
+  @apply grid grid-cols-12 mt-5 mb-10;
 }
-.ResetPasscardcontainer
-{
-    @apply lg:col-start-4 lg:col-span-6 md:col-start-3 md:col-span-8 sm:col-start-2 sm:col-span-10;
+.ResetPasscardcontainer {
+  @apply lg:col-start-4 lg:col-span-6 md:col-start-3 md:col-span-8 sm:col-start-2 sm:col-span-10;
 }
-.ResetPasscardheading
-{
-    @apply my-5 text-center text-3xl text-primary-dark font-bold;
+.ResetPasscardheading {
+  @apply my-5 text-center text-3xl text-primary-dark font-bold;
 }
-.ResetPasscardstyle
-{
-    @apply px-16 py-10 sm:px-10 bg-light 
+.ResetPasscardstyle {
+  @apply px-16 py-10 sm:px-10 bg-light 
     rounded-xl;
 }
-.usericon
-{
-    @apply text-3xl text-primary-dark font-bold;
+.usericon {
+  @apply text-3xl text-primary-dark font-bold;
 }
-.linktoregister
-{
-    @apply text-xl text-primary-dark font-bold;
+.linktoregister {
+  @apply text-xl text-primary-dark font-bold;
 }
-.ResetPassinputsection
-{
-    @apply text-center mb-5 lg:mx-16 md:mx-10 sm:mx-0;
+.ResetPassinputsection {
+  @apply text-center mb-5 lg:mx-16 md:mx-10 sm:mx-0;
 }
-.ResetPassinputsstyle
-{
-    @apply w-full rounded p-2 font-semibold;
+.ResetPassinputsstyle {
+  @apply w-full rounded p-2 font-semibold;
 }
-.ResetPassinputerr
-{
-    @apply text-sm flex justify-start text-error-dark italic;
+.ResetPassinputerr {
+  @apply text-sm flex justify-start text-error-dark italic;
 }
-.cardfootersection
-{
-    @apply flex justify-between lg:mx-16 md:mx-10 sm:mx-0;
+.cardfootersection {
+  @apply flex justify-between lg:mx-16 md:mx-10 sm:mx-0;
 }
-.cardfooternavigate
-{
-    @apply text-lg text-primary-dark font-semibold;
+.cardfooternavigate {
+  @apply text-lg text-primary-dark font-semibold;
 }
-.ResetPassbtnstyle
-{
-    @apply border disabled:cursor-not-allowed disabled:hover:bg-slate-600 disabled:bg-slate-600 rounded-lg -top-6 h-10 relative hover:bg-primary bg-primary-dark text-white text-center text-lg font-bold w-48;
+.ResetPassbtnstyle {
+  @apply border disabled:cursor-not-allowed disabled:hover:bg-slate-600 disabled:bg-slate-600 rounded-lg -top-6 h-10 relative hover:bg-primary bg-primary-dark text-white text-center text-lg font-bold w-48;
 }
-                          /* * reset password page style */
+/* * reset password page style */

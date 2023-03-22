@@ -11,6 +11,7 @@ const mongoose = require("mongoose");
 const User = mongoose.model("userdata");
 const UserLeave = mongoose.model("LeaveList");
 const Manager = mongoose.model("managerdata");
+const superAdmin = mongoose.model("superAdmin");
 
 
 router.post("/register",async (req,res)=>{
@@ -32,10 +33,18 @@ router.post("/register",async (req,res)=>{
         }
         else
         {
+            const findManagerId = await Manager.findOne({managerId});
+            if(findManagerId)
+            {
             await User.create({
                 fname,lname,email,password:encryptPass,role,managerId,managerName
             });
             res.json({data:'Employ Insert Data Succefully',status:201});
+            }
+            else
+            {
+              res.json({data:"ManagerId not exist....!",status:404});
+            }
         }
        }
 
@@ -70,7 +79,8 @@ router.post("/login",async (req,res)=>{
  
     const existUser = await User.findOne({email});
     const existManager = await Manager.findOne({email});
- 
+    const existSuperAdmin = await superAdmin.findOne({email});
+
     if(existUser)
     {
         if(await bcrypt.compare(password,existUser.password))
@@ -96,6 +106,22 @@ router.post("/login",async (req,res)=>{
          if(res.status(201))
          {
              return res.json({token:jwtToken,status:200,role:existManager.role});
+         }
+         else
+         {
+             return res.json({error:"Invalid Credentials",status:404});
+         }
+        }
+    }
+    else if(existSuperAdmin)
+    {
+        if(password===existSuperAdmin.password)
+        {
+         const jwtToken = jwt.sign({email:existSuperAdmin.email},jwtKey,{expiresIn:86400});
+     
+         if(res.status(201))
+         {
+             return res.json({token:jwtToken,status:200,role:existSuperAdmin.role});
          }
          else
          {
@@ -137,21 +163,23 @@ router.post("/login",async (req,res)=>{
  
      try{
          const existUser = await User.findOne({email});
+         const existManager = await Manager.findOne({email});
  
-         if(!existUser)
+         if(!existUser && !existManager)
          {
              return res.json({data:"Email-Id Not exist",status:404});
          }
- 
-         else
+         else if(existUser)
          {
              return res.json({data:existUser,status:200});
          }
+         else if(existManager)
+         {
+            return res.json({data:existManager,status:200});
+         }
      }
      catch(err){
- 
          res.json({data:err,status:404})
- 
      }
  
  });
@@ -161,6 +189,7 @@ router.post("/login",async (req,res)=>{
     const{email,newPassword} = req.body;
 
     const existUser = await User.findOne({email});
+    const existManager = await Manager.find({email});
 
     try{
     if(existUser)
@@ -173,6 +202,16 @@ router.post("/login",async (req,res)=>{
 
             res.json({data:"Password Update Successfully",status:200});
 
+    }
+    else if(existManager)
+    {
+        const newEncryptPass = await bcrypt.hash(newPassword,10);
+
+        await Manager.findOneAndUpdate({email:email},{$set:{
+            password:newEncryptPass
+        }});
+
+        res.json({data:"Password Update Successfully",status:200});
     }
     else
     {
@@ -193,6 +232,7 @@ router.post("/login",async (req,res)=>{
      const email = verfiyUser.email;
  
      const existUser = await User.findOne({email});
+     const existManager = await Manager.findOne({email});
  
      try{
      if(existUser)
@@ -212,6 +252,24 @@ router.post("/login",async (req,res)=>{
          {
              res.json({data:"Password Not Match",status:404});
          }
+     }
+     else if(existManager)
+     {
+        const comparepass = await bcrypt.compare(currentPassword,existManager.password);
+        if(comparepass===true)
+        {
+            const newEncryptPass = await bcrypt.hash(newPassword,10);
+
+            await Manager.findOneAndUpdate({email:email},{$set:{
+                password:newEncryptPass
+            }});
+
+            res.json({data:"Password Update Successfully",status:200});
+        }
+        else
+        {
+            res.json({data:"Password Not Match",status:404});
+        }
      }
      else
      {
@@ -318,7 +376,7 @@ router.post("/login",async (req,res)=>{
 
  });
 
- router.post("/managerdata",async (req,res)=>{
+router.post("/managerdata",async (req,res)=>{
  
     const {token} = req.body;
 
@@ -379,6 +437,54 @@ router.post("/leavedata",async(req,res)=>{
         res.json({data:err,status:400});
     }
 
+
+});
+
+router.post('/acceptupdateleave',async(req,res)=>{
+
+    const{leaveId,status,managerNote} = req.body;
+
+    try{
+
+      await UserLeave.findByIdAndUpdate({_id:leaveId},{$set:{
+             status,managerNote
+      }}).then(()=>{
+        return res.json({data:'Leave Update Successfully',status:200});
+      })
+    }
+    catch(err){
+         res.json({data:err,status:400});
+    }
+});
+
+router.post('/rejectupdateleave',async(req,res)=>{
+
+    const{leaveId,employId,status,managerNote,days} = req.body;
+
+    try{
+
+      await UserLeave.findByIdAndUpdate({_id:leaveId},{$set:{
+             status,managerNote
+      }}).then(async()=>{
+
+        const currentDays = await User.findOne({_id:employId});
+        const actualDays = currentDays.remainingLeaveDays+days;
+
+        await User.findByIdAndUpdate({_id:employId},{$set:{
+            remainingLeaveDays:actualDays
+        }})
+         return res.json({data:'Leave Update Successfully',status:200});
+      })
+    }
+    catch(err){
+         res.json({data:err,status:400});
+    }
+});
+
+router.get("/admin/leaves",async(_,res)=>{
+
+    const leaves = await UserLeave.find({}).populate('employId', "fname lname")
+    res.json(leaves);
 
 });
 

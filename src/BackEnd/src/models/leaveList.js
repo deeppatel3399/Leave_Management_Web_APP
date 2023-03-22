@@ -1,21 +1,28 @@
 const mongoose = require("mongoose");
 
 const LeaveSchema = new mongoose.Schema(
-    {
-    employId:{type:String,required:true},
-    fromDate:{type:Date,required:true},
-    toDate:{type:Date,required:true},
-    typeOfLeave:{type:String,require:true},
-    days:{type:Number},
-    note:{type:String,trim:true},
-    status:{type:String,enum:["A","R","P"],default:"P"},
-    managerNote:{type:String,default:""}
+  {
+    employId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "userdata",
+      required: true,
     },
-    {
-        timestamps:true,
-        collection:"LeaveList"
-    }
+    fromDate: { type: Date, required: true },
+    toDate: { type: Date, required: true },
+    typeOfLeave: { type: String, require: true },
+    days: { type: Number },
+    note: { type: String, trim: true },
+    status: {
+      type: String,
+      enum: ["Accepted", "Rejected", "Pending"],
+      default: "Pending",
+    },
+    managerNote: { type: String, default: "" },
+  },
+  {
+    timestamps: true,
+    collection: "LeaveList",
+  }
 );
 
-mongoose.model("LeaveList",LeaveSchema);
-
+mongoose.model("LeaveList", LeaveSchema);

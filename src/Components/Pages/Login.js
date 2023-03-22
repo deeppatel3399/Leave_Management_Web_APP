@@ -78,7 +78,12 @@ const Login = () => {
           window.localStorage.setItem("loginval",true);
           window.location.href = "./leavereq";
           }
-          else
+          else if(data.data.role==="SA")
+          {           
+            window.localStorage.setItem("superadminloginval",true);
+            window.location.href = "./admindash";
+          }
+          else if(data.data.role==="M")
           {
             window.localStorage.setItem("managerloginval",true);
             window.location.href = "./dash";

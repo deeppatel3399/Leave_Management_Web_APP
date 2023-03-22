@@ -9,6 +9,8 @@ import ConfirmPass from './Components/Pages/ConfirmPass';
 import ForgotPass from './Components/Pages/ForgotPass';
 import LeaveStatus from './Components/Pages/LeaveStatus';
 import ManagerDash from './Components/Pages/ManagerDash';
+import AdminDash from './Components/Pages/AdminDash';
+import AdminReq from './Components/Pages/AdminReq';
 import reportWebVitals from './reportWebVitals';
 import {createBrowserRouter,RouterProvider,Route,createRoutesFromElements} from 'react-router-dom';
 import axios from 'axios';
@@ -25,14 +27,16 @@ axios.defaults.baseURL = "http://localhost:3001/";
 const router = createBrowserRouter(createRoutesFromElements(
 <Route>
  <Route path='/' element={isLogIn?<LeaveReq/> : isManagerLogIn?<ManagerDash/> : <App/>}/>
- <Route path='/leavereq' element={isLogIn?<LeaveReq/>:<App/>}/>
+ <Route path='/leavereq' element={isLogIn?<LeaveReq/>:isManagerLogIn?<ManagerDash/>:<App/>}/>
  <Route path='/holidaylist' element={<LeaveList/>}/>
  <Route path='/register' element={<Register/>}/>
- <Route path='/newpassword' element={isLogIn?<ConfirmPass/>:<App/>}/>
+ <Route path='/newpassword' element={isLogIn?<ConfirmPass/>:isManagerLogIn?<ConfirmPass/>:<App/>}/>
  <Route path='/forgotpassword' element={<ForgotPass/>}/>
  <Route path='/resetpassword' element={isEmail?<ResetPass/>:<ForgotPass/>}/>
- <Route path='/leavestatus' element={isLogIn?<LeaveStatus/>:<App/>}/>
- <Route path='/dash' element={isManagerLogIn?<ManagerDash/>:<App/>}/>
+ <Route path='/leavestatus' element={isLogIn?<LeaveStatus/>:isManagerLogIn?<ManagerDash/>:<App/>}/>
+ <Route path='/dash' element={isManagerLogIn?<ManagerDash/>:isLogIn?<LeaveReq/>:<App/>}/>
+ <Route path='/admindash' element={<AdminDash/>}/>
+ <Route path='/allreq' element={<AdminReq/>}/>
 </Route>
 ));
 // function for routing different paths

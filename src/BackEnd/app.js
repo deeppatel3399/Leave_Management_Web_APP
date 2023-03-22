@@ -11,6 +11,7 @@ require("./src/db/dbConn");
 require("./src/models/userReg");
 require("./src/models/managerReg");
 require("./src/models/leaveList");
+require("./src/models/superAdmin");
 require("dotenv").config();
 
 const UserRouters = require("./src/routers/userRoutes");
