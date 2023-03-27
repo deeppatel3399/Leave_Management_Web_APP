@@ -1,7 +1,8 @@
 import axios from "axios";
+import moment from "moment/moment";
 import React, { useCallback, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import Navbar from "../Navbar";
+// import { useNavigate } from "react-router-dom";
+import Navbar from "../../Navbar";
 
 const AdminReq = () => {
   const [leaves, setLeaves] = useState([]);
@@ -9,10 +10,11 @@ const AdminReq = () => {
   const [filterLeave, setFilterLeave] = useState("");
   const [startDate,setStartDate] = useState(new Date());
   const [endDate,setEndDate] = useState(new Date());
+  const [employeeName,setEmployeeName] = useState("");
 
   const fetchLeaves = useCallback(async () => {
     try {
-      const res = await axios.get("/admin/leaves");
+      const res = await axios.get("admin/leaves");
       setLeaves(res.data);
     } catch (err) {
       alert(err);
@@ -23,47 +25,51 @@ const AdminReq = () => {
   {
     if (filterLeave === "LW") 
     {
-      const today = new Date();
-      setEndDate(new Date(today));
-
-      const lastDate = new Date(today.setDate(today.getDate() - 7));
-      setStartDate(new Date(lastDate));
+      setStartDate(new Date(startDate.setDate(startDate.getDate() - 7)));
+      setEndDate(new Date());
+    }
+    else if (filterLeave === "LM") 
+    {
+      // setStartDate(new Date(startDate.setDate(28-(28-startDate.getDate()))));
+      setStartDate(new Date());
+      setEndDate(new Date());
     }
   };
 
+  const today = moment().format('MM/DD/YYYY');
+  const dayBeforeWeek = moment().subtract(7,'days').calendar();
+  console.log(today);
+  console.log(dayBeforeWeek);
+
+  // const createdFirstDate = moment(leaves[0].createdAt);
+  // console.log(leaves[0].createdAt);
+
+
+
+  // const filterData = leaves.filter(
+  //   (val)=>{
+  //     const created = new Date(val.createdAt);
+  //     if(created.getDate()>=startDate.getDate()&&created.getDate()<=endDate.getDate())
+  //     {
+  //      return val;
+  //     }
+  //   }
+  // );
+  
+
   useEffect(() => {
     fetchLeaves();
-    if(filterLeave!="")
-    {
-      leaveFilterFun();
-    }
+    // if(filterLeave!=="")
+    // {
+    //   leaveFilterFun();
+    // }
 
-  }, [filterLeave]);
+  }, []);
   
 
   return (
     <>
       <Navbar />
-      {/* {
-              leaves.filter((val)=>
-              {
-                const createdDate = new Date(val.createdAt);
-                const getDate = createdDate.getDate();
-                const getMonth = createdDate.getMonth();
-                const getYear = createdDate.getYear();
-        
-                const startGetDate = startDate.getDate();
-                const endGetdate = endDate.getDate();
-        
-                if(startGetDate<=getDate && endGetdate>=getDate)
-                {
-                  return val;
-                }
-              })
-              .map((val,ind)=>{
-                <p>{ind+1+" "+new Date(val.fromDate).toLocaleDateString("in-en")+" "+new Date(val.toDate).toLocaleDateString("in-en")}</p>
-              })
-      } */}
       <h1 className="font-bold text-2xl text-center text-primary-dark mt-5">
         Employee Leave List
       </h1>
@@ -93,7 +99,7 @@ const AdminReq = () => {
                 id="default-search"
                 className="block w-full h-11 p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Search Employee Name"
-                required
+                required value={employeeName} onChange={(e)=>setEmployeeName(e.target.value)}
               />
             </div>
           </div>
@@ -112,7 +118,7 @@ const AdminReq = () => {
               <option value="Pending">Pending</option>
               <option value="Accepted">Accepted</option>
               <option value="Rejected">Rejected</option>
-              <option value="C">Cancelled</option>
+              <option value="Cancelled">Cancelled</option>
             </select>
           </div>
 
@@ -166,7 +172,7 @@ const AdminReq = () => {
         <div className="mt-5 p-5">
           <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
             <table className="w-full text-sm text-left">
-              <thead className="text-md bg-primary text-white">
+              <thead className="text-md bg-slate-600 text-white">
                 <tr>
                   <th scope="col" className="px-6 w-28 py-3">
                     Sr. No
@@ -190,25 +196,41 @@ const AdminReq = () => {
                     Category of Leave
                   </th>
                   <th scope="col" className="px-6 py-3">
-                    Manager Note
+                    Edit
                   </th>
                 </tr>
               </thead>
               <tbody>
                 {leaves
-                  .filter((val) =>
-                    leaveStatus ?
-                    // || filterLeave ? 
-                    val.status===leaveStatus
-                    // ||
-                    // ((val.fromDate>=startDate&&val.fromDate<=endDate)
-                    // &&(val.toDate>=startDate&&val.toDate<=endDate)
-                    // ) 
-                    : val
-                  )
-                  .map((val, ind) => (
+                    .filter(employeeName!==""?(val)=>
+                    {
+                      const empname = val.employId.fname+" "+val.employId.lname;
+                      return empname.toLowerCase().includes(employeeName.toLowerCase());
+                    }
+                    :(val)=>val)
+                    .filter((val) =>leaveStatus ? val.status===leaveStatus:val)
+                    // .filter(
+                    //     filterLeave==="LW"?
+                    //     (val)=>{
+                    //     const created = new Date(val.createdAt);
+                    //     if(created.getDate()>=startDate.getDate()&&created.getDate()<=endDate.getDate())
+                    //     {
+                        
+                    //     return val;
+                    //     }
+                    //     }
+                    //     // :filterLeave==="LM"?
+                    //     // (val)=>{
+                    //     //   const created = new Date(val.createdAt);
+                    //     //   if((created.getDate()<=startDate.getDate()&&created.getDate()>=endDate.getDate())&&(created.getMonth()>startDate.getMonth()&&created.getMonth()>endDate.getMonth()))
+                    //     //   {
+                    //     //     return val;
+                    //     //   }
+                    //     // }
+                    // :(val)=>val)
+                    .map((val, ind) => (
                     <tr
-                      className="border-b bg-primary-dark text-white hover:bg-primary"
+                      className="border-b bg-slate-300 text-black hover:bg-light"
                       key={ind}
                     >
                       <th scope="row" className="px-6 py-4 font-medium">
@@ -228,7 +250,9 @@ const AdminReq = () => {
                       </th>
                       <td className="px-6 py-4">{val.days}</td>
                       <td className="px-6 py-4">{val.typeOfLeave}</td>
-                      <td className="px-6 py-4">{val.managerNote}</td>
+                      <td className="px-6 py-4 text-left">
+                              <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                      </td>
                     </tr>
                   ))}
               </tbody>

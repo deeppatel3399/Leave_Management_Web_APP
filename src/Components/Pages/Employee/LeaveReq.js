@@ -1,9 +1,9 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import "../../App.css";
-import Navbar from "../Navbar";
-import Footer from "../Footer";
+import "../../../App.css";
+import Navbar from "../../Navbar";
+import Footer from "../../Footer";
 
 const LeaveReq = () => {
   const [firstDate, setFirstDate] = useState("");
@@ -60,7 +60,7 @@ const LeaveReq = () => {
       setToDateValid("To Date Required");
     }
     axios
-      .post("/leavereq", {
+      .post("user/leavereq", {
         employId,
         fromDate: firstDate,
         toDate: lastDate,
@@ -130,7 +130,7 @@ const LeaveReq = () => {
 
     const fetchdata = () => {
       axios
-        .post("/userdata", {
+        .post("user/userdata", {
           token: window.localStorage.getItem("token"),
         })
         .then((data) => {
@@ -143,7 +143,8 @@ const LeaveReq = () => {
             window.localStorage.clear();
             window.location.href = "/";
           } else {
-            window.localStorage.setItem("loginval", true);
+            window.localStorage.setItem("role",data.data.data.role);
+            console.log(window.localStorage.getItem("role"));
           }
         });
     };

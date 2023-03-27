@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { NavLink } from 'react-router-dom';
-import '../../App.css';
+import '../../../App.css';
+import {useNavigate } from 'react-router-dom';
 
 const Login = () => {
+
+ const navigate = useNavigate();
 
  const[email,setEmail] = useState("");
  const[password,setPassword] = useState("");
@@ -75,19 +78,19 @@ const Login = () => {
           window.localStorage.setItem("token",data.data.token);
           if(data.data.role==="E")
           {
-          window.localStorage.setItem("loginval",true);
+          window.localStorage.setItem("role",data.data.role);
           window.location.href = "./leavereq";
           }
           else if(data.data.role==="SA")
           {           
-            window.localStorage.setItem("superadminloginval",true);
+            window.localStorage.setItem("role",data.data.role);
             window.location.href = "./admindash";
-          }
+        }
           else if(data.data.role==="M")
           {
-            window.localStorage.setItem("managerloginval",true);
+            window.localStorage.setItem("role",data.data.role);
             window.location.href = "./dash";
-          }
+        }
       }
       if(data.data.status===404)
       {

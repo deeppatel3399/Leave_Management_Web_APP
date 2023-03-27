@@ -12,7 +12,7 @@ const EmployLeaveReqCard = (props)=>
   {
     const leaveId = leaveData._id;
 
-    axios.post('/acceptupdateleave',{
+    axios.post('leave/acceptupdateleave',{
       leaveId,
       status:'Accepted',
       managerNote,
@@ -30,7 +30,7 @@ const EmployLeaveReqCard = (props)=>
     const leaveId = leaveData._id;
     const employId = leaveData.employId;
 
-    axios.post('/rejectupdateleave',{
+    axios.post('leave/rejectupdateleave',{
       leaveId:leaveId,
       employId,
       status:'Rejected',
@@ -46,7 +46,7 @@ const EmployLeaveReqCard = (props)=>
   };
 
   useEffect(()=>{
-    if(leaveData.status==="Accepted" || leaveData.status==="Rejected")
+    if(leaveData.status==="Accepted" || leaveData.status==="Rejected" || leaveData.status==="Cancelled")
     {
       setDisVal(true);
     }
@@ -87,7 +87,7 @@ const EmployLeaveReqCard = (props)=>
            </div>
          :<div>
           <p className='text-white  font-semibold'>Your Note</p>
-          <div className='w-full border-black rounded-md bg-white text-black px-3 py-1'>{leaveData.managerNote}</div>
+          <div className='w-full border-black rounded-md bg-white text-black px-3 py-1 h-10'>{leaveData.managerNote}</div>
           </div>
          }
 
@@ -100,8 +100,10 @@ const EmployLeaveReqCard = (props)=>
               <>
                 <div>
                   {leaveData.status==="Accepted"?
-                  <p className='text-success font-semibold'>{leaveData.status}</p>
-                  :<p className='text-error font-bold'>{leaveData.status}</p>
+                  <p className='text-success font-semibold'><span className='text-white font-bold text-base'>Status - </span> {leaveData.status}</p>
+                  :leaveData.status==="Cencelled"?
+                  <p className='text-error font-bold'><span className='text-white font-bold text-base'>Status - </span>{leaveData.status}</p>
+                  :<p className='text-error font-bold'><span className='text-white font-bold text-base'>Status - </span>{leaveData.status}</p>
                   }
                 </div>
               </>

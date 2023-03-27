@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import '../../App.css';
-import data from '../../api/leaveapi.json';
-import Navbar from '../Navbar';
-import Footer from '../Footer';
+import '../../../App.css';
+import data from '../../../api/leaveapi.json';
+import Navbar from '../../Navbar';
+import Footer from '../../Footer';
 
 const LeaveList = () => {
 

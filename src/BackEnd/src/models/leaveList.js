@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const LeaveSchema = new mongoose.Schema(
   {
     employId: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: String,
       ref: "userdata",
       required: true,
     },
@@ -14,7 +14,7 @@ const LeaveSchema = new mongoose.Schema(
     note: { type: String, trim: true },
     status: {
       type: String,
-      enum: ["Accepted", "Rejected", "Pending"],
+      enum: ["Accepted", "Rejected", "Pending","Cancelled"],
       default: "Pending",
     },
     managerNote: { type: String, default: "" },

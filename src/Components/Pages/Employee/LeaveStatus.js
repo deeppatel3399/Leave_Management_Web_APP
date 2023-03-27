@@ -1,15 +1,33 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState ,useCallback } from 'react';
 import axios from 'axios';
-import Navbar from '../Navbar';
-import Footer from '../Footer';
+import Navbar from '../../Navbar';
+import Footer from '../../Footer';
 
 const LeaveStatus = () => {
 
 const[leaveData,setLeaveData] = useState([]);
+// const [days,setDays] = useState("");
+
+const cancelLeave = useCallback((leaveId)=>
+{
+  if(window.confirm("Cancel Leave?"))
+  {
+    axios.post("leave/cancelleave",{
+      leaveId,
+      status:'Cancelled',
+      // days:days
+    }).then((data)=>{
+      if(data.data.status===200)
+      {
+        alert("Leave Cancelled Successfully");
+      }
+    })
+  }
+},[]);
 
 useEffect(()=>{
 
-    axios.post("/leavestatus",{
+    axios.post("user/leavestatus",{
         token:window.localStorage.getItem("token")
     })
     .then((data)=>{
@@ -40,6 +58,7 @@ useEffect(()=>{
             <th className="tableheading" >Note</th>
             <th className="tableheading" >Status</th>
             <th className="tableheading" >Manager Comment</th>
+            <th className="tableheading" >Edit</th>
           </tr>
         </thead>
         <tbody>
@@ -53,6 +72,9 @@ useEffect(()=>{
                 <td className="tablecoldata" >{val.note}</td>
                 <td className="tablecoldata" >{val.status}</td>
                 <td className="tablecoldata" >{val.managerNote}</td>
+                <td className="tablecoldata" >{val.status==='Pending'?<button
+                onClick={()=>{cancelLeave(val._id)}} 
+                className='w-10 hover:bg-error bg-error-dark text-white rounded-full'><i className="fa-solid fa-xmark"></i></button>:<p>-</p>}</td>
                 </tr>
           ))}
         </tbody>

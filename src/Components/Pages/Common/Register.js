@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { NavLink } from 'react-router-dom';
-import Navbar from '../Navbar';
-import Footer from '../Footer';
-import '../../App.css';
+import Navbar from '../../Navbar';
+import Footer from '../../Footer';
+import '../../../App.css';
 
 const Register = () => {
 

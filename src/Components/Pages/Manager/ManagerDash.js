@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
-import EmployLeaveReqCard from '../EmployLeaveReqCard';
-import Navbar from '../Navbar';
+import EmployLeaveReqCard from '../../EmployLeaveReqCard';
+import Navbar from '../../Navbar';
 import { useEffect, useState,useCallback } from 'react';
 
 const ManagerDash = () => {
@@ -13,7 +13,7 @@ const ManagerDash = () => {
 
   const fetchData = useCallback(()=>{
   
-    axios.post('/managerdata',{
+    axios.post('manager/managerdata',{
       token:window.localStorage.getItem("token")
     })
     .then((data)=>{
@@ -28,7 +28,7 @@ const ManagerDash = () => {
 
   const fetchemployData = useCallback((managerId)=>{
 
-    axios.post('/allemploy',{
+    axios.post('manager/allemploy',{
       managerId
     })
     .then((data)=>{
@@ -38,7 +38,7 @@ const ManagerDash = () => {
 
   const fetchLeave = useCallback((employId)=>{
 
-    axios.post("/leavedata",{
+    axios.post("manager/leavedata",{
       employId
     })
     .then((data)=>{
