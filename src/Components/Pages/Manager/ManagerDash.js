@@ -78,7 +78,7 @@ const ManagerDash = () => {
     
       {leaveList.map((val,ind)=>(
       <div className='col-span-3 basis-1/2 pb-3' key={ind}>
-         <EmployLeaveReqCard name={employName} from={new Date(val.fromDate).toLocaleDateString("in-en")} to={new Date(val.toDate).toLocaleDateString("in-en")} days={val.days} note={val.note} leavListData={leaveList[ind]}/>
+         <EmployLeaveReqCard name={employName} from={new Date(val.fromDate).toLocaleDateString("in-en")} to={new Date(val.toDate).toLocaleDateString("in-en")} days={val.days} note={val.note} leavListData={leaveList[ind]} status={val.status}/>
       </div>
       ))}
 

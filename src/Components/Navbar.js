@@ -95,10 +95,10 @@ const Navbar = () => {
 
           <div className='max-lg:hidden flex justify-between'>
             {role==="E"||role==="M"||role==="SA"?
-              <div className='flex flex-col relative z-10'>
+              <div className='flex flex-col relative'>
                 <button className='navlinkstyle' onClick={profilebtn}><i className="fa-solid fa-user usericon bg-white rounded-full w-8 h-8"></i></button>
 
-                <div className='profilemenu absolute top-10 -left-3 w-32 bg-primary-dark p-5 rounded' id='profilemenu' hidden={profileMenuVal}>
+                <div className='profilemenu absolute top-10 z-10 -left-3 w-32 bg-primary-dark p-5 rounded' id='profilemenu' hidden={profileMenuVal}>
                   <ul>
                     <li className='w-32 pb-3'><button className='navlinkstyle' onClick={logoutbtn}>Log Out</button></li>
                     <li className='w-32 pb-3'><NavLink className="navlinkstyle" to='/newpassword'>Change Password</NavLink></li>
