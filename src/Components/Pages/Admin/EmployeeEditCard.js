@@ -2,29 +2,33 @@ import axios from "axios";
 import React from "react";
 import { useState } from "react";
 
-const EmployeeEditCard = ({onclick,name,email,role,managerId,managerName,employId}) => {
+const EmployeeEditCard = ({onclick,fname,lname,password,email,role,managerId,managerName,employId}) => {
 
   const [newRole,setNewRole] = useState(role);
   const [newManagerId,setNewManagerId] = useState(managerId);
   const [newManagerName,setNewManagerName] = useState(managerName);
+  // const [employeeNewManagerId,setEmployeeNewManagerId] = useState("");
 
   const employeeUpdate = ()=>
   {
     axios.post("/admin/updateEmployee",{
       employId,
+      fname,
+      lname,
+      email,
+      password,
       role:newRole,
       managerId:newManagerId,
-      managerName:newManagerName
+      managerName:newManagerName,
+      // employeeNewManagerId
     }).then((data)=>{
       if(data.data.status===200)
       {
-        alert(name+" Data Update Succefully");
+        alert(fname+" "+lname+" Data Update Succefully");
       }
     })
     
   };
-
-
 
   return (
     <div className="w-full flex  h-full top-0 left-0 justify-center items-center backdrop-blur-sm absolute bg-black bg-opacity-50">
@@ -43,7 +47,7 @@ const EmployeeEditCard = ({onclick,name,email,role,managerId,managerName,employI
         <span className="text-lg font-bold text-primary-dark">
           Employee Name-{" "}
         </span>
-        <span className="text-md text-black font-semibold">{name}</span>
+        <span className="text-md text-black font-semibold">{fname+" "+lname}</span>
       </div>
       <div className="my-3">
         <span className="text-lg font-bold text-primary-dark">Email-Id- </span>
@@ -58,6 +62,8 @@ const EmployeeEditCard = ({onclick,name,email,role,managerId,managerName,employI
         </select>
       </div>
 
+     {newRole==="E"?
+     <div>
       <div className="my-3">
         <span className="text-lg font-bold text-primary-dark">
           Manager-Id-{" "}
@@ -71,6 +77,17 @@ const EmployeeEditCard = ({onclick,name,email,role,managerId,managerName,employI
         </span>
         <input type="text" value={newManagerName} onChange={(e)=>{setNewManagerName(e.target.value)}} className="h-10 p-3 rounded-lg"/>
       </div>
+      </div>
+      :
+      <div>
+      <div className="my-3">
+        <span className="text-lg font-bold text-primary-dark">
+          New Manager-Id-{" "}
+        </span>
+        <input type="text" value={newManagerId} onChange={(e)=>{setNewManagerId(e.target.value)}} className="h-10 p-3 rounded-lg"/>
+      </div>
+      </div>
+       }
 
       <div className="flex flex-row justify-center mt-3">
         <button onClick={employeeUpdate} className="w-20 h-10 rounded bg-primary-dark text-white font-bold hover:bg-primary">

@@ -7,7 +7,6 @@ const mongoose = require("mongoose");
 const User = mongoose.model("userdata");
 const UserLeave = mongoose.model("LeaveList");
 
-
  userRouter.post("/userdata",async (req,res)=>{
  
      const {token} = req.body;

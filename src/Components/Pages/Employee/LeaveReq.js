@@ -22,16 +22,16 @@ const LeaveReq = () => {
   const [userDataFName, setUserDataFName] = useState("");
   const [userDataLName, setUserDataLName] = useState("");
 
+  const [halfDayVal,setHalfDayVal] = useState(false);
+
   const blurfromdate = () => {
     var ind = new Date(firstDate).getDay();
     if (!firstDate) {
       setFromDateValid("From Date Required");
-      document.getElementById("validdatetwo").disabled = true;
     } else if (ind === 0 || ind === 6) {
       setFromDateValid("Weekends not allowed");
     } else {
       setFromDateValid("");
-      document.getElementById("validdatetwo").disabled = false;
     }
   };
   const blurtodate = () => {
@@ -118,10 +118,8 @@ const LeaveReq = () => {
     setFromDateValid("");
     setToDateValid("");
     setReasonValid("");
-    document.getElementById("validdatetwo").disabled = false;
     setDisVal(true);
   };
-
   var today = new Date().toISOString().split("T")[0];
 
    useEffect(() => {
@@ -160,9 +158,16 @@ const LeaveReq = () => {
     };
     disfun();
 
-  }, [firstDate, lastDate,reason]);
+    if(halfDayVal)
+    {
+      if(firstDate)
+      {
+        setLastDate(firstDate);
+        setDays(0.5);
+      }
+    }
+  }, [firstDate, lastDate,reason,halfDayVal]);
 
-  console.log(firstDate);
 
   return (
     <>
@@ -180,6 +185,10 @@ const LeaveReq = () => {
         </p>
         <hr />
 
+        <div className="ml-5 mt-5 flex flex-row items-center">
+          <input type="checkbox" className="w-10 h-5" onChange={()=>{setHalfDayVal(!halfDayVal)}}/><span className="text-md text-primary-dark font-bold">Is your leave for Half Day?</span>
+        </div>
+
         <div className="inputboxes">
           <div className="basis-1/2">
             <p className="inputboxetitle">
@@ -189,8 +198,9 @@ const LeaveReq = () => {
               id="validdateone"
               onKeyDown={(e) => e.preventDefault()}
               min={today}
+              max={lastDate}
               type="date"
-              onChange={(e) => setFirstDate(e.target.value)}
+              onChange={(e) => {setFirstDate(e.target.value)}}
               className="inputboxstyle"
               onBlur={blurfromdate}
             />
@@ -202,14 +212,16 @@ const LeaveReq = () => {
               To<span className="reuiredfield">*</span>
             </p>
             <input
+              disabled={halfDayVal?true:false}
               id="validdatetwo"
               onKeyDown={(e) => e.preventDefault()}
-              min={today}
+              min={firstDate}
               // max={}
               type="date"
               onChange={(e) => setLastDate(e.target.value)}
               className="inputboxstyle"
               onBlur={blurtodate}
+              value={lastDate}
             />
             <br />
             <span className="validmsg">{toDateValid}</span>

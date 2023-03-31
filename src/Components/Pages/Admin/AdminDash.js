@@ -4,6 +4,7 @@ import Navbar from "../../Navbar";
 import LatestLeave from "./LatestLeave";
 import EmployeeEditCard from "./EmployeeEditCard";
 import ManagerEditCard from "./ManagerEditCard";
+import { read, utils } from "xlsx";
 
 const AdminDash = () => {
   const [managerData, setManagerData] = useState([]);
@@ -19,6 +20,24 @@ const AdminDash = () => {
 
   const[managerEditData,setManagerEditData] = useState(null);
   const[employeeEditData,setEmployeeEditData] = useState(null);
+  const[insertDisVal,setInsertDisVal] = useState(true);
+
+  const [xlFile,setXlFile] = useState(null);
+  const [xlData,setXlData] = useState([]);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemPerpage, setItemPerPage] = useState(5);
+  const totalPages = [];
+
+  const indexOfLastPage = currentPage * itemPerpage;
+  const indexOfFirstPage = indexOfLastPage - itemPerpage;
+  const currentEmployeeData = employeeData.slice(indexOfFirstPage, indexOfLastPage);
+
+
+  for (let i = 1; i <= Math.ceil(employeeData.length / itemPerpage); i++) {
+    totalPages.push(i);
+  }
+
 
   const fetchdata = async () => {
     const res = await axios.get("admin/admindash");
@@ -27,6 +46,50 @@ const AdminDash = () => {
     setEmployeerData(res.data.employee);
     setLeavesData(res.data.leaves);
   };
+
+  const readXlData = (e)=>
+  {
+    const file = e.target.files[0];
+    setXlFile(file);
+    if(file)
+    {
+    setInsertDisVal(false);
+    }
+    else
+    {
+      setInsertDisVal(true);
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = (e)=>
+    {
+        const data = e.target.result;
+        const sheet = read(data,{type:"array"});
+        const sheetName = sheet.SheetNames[0];
+        const workSheet = sheet.Sheets[sheetName];
+        const res = utils.sheet_to_json(workSheet);
+        setXlData(res);
+    };
+    reader.readAsArrayBuffer(file);
+  };
+
+  const uploadData = ()=>
+  {
+    axios.post("admin/insertEmployeeData",{
+      xlData
+    }).then((data)=>{
+          if(data.data.status===200)
+          {
+            alert("Employee Data Inserted Successfully");
+          }
+          else
+          {
+            alert("Data not inserted");
+          }
+    })
+  };
+
 
   useEffect(() => {
     fetchdata();
@@ -148,6 +211,7 @@ const AdminDash = () => {
                 </div>
               </div>
             ) : employeeVal === true ? (
+              <div className="w-full flex flex-col">
               <div className="w-full flex flex-col justify-center items-center">
                 <h1 className="text-2xl text-primary-dark font-bold text-center pb-10">
                   Employee List
@@ -171,18 +235,18 @@ const AdminDash = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {employeeData.map((val, ind) => (
+                      {currentEmployeeData.map((val, ind) => (
                         <tr
                           className="bg-light border-b dark:bg-light dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 dark:hover:text-white hover:text-white font-medium text-primary-dark whitespace-nowrap dark:text-primary-dark"
                           key={ind}
                         >
                           <th scope="row" className="px-6 py-4">
-                            {ind + 1}
+                          {((currentPage-1)*itemPerpage)+ind+1}
                           </th>
                           <td className="px-6 py-4">
                             {val.fname + " " + val.lname}
                           </td>
-                          <td className="px-6 py-4">{}</td>
+                          <td className="px-6 py-4">{val.email}</td>
                           <td className="px-6 py-4 text-right">
                             <button
                               onClick={() => {
@@ -199,6 +263,44 @@ const AdminDash = () => {
                     </tbody>
                   </table>
                 </div>
+
+                <div className="flex flex-row justify-center mt-5">
+                  <ul className="inline-flex -space-x-px">
+                    <li>
+                      <button
+                        onClick={()=>setCurrentPage(currentPage-1)}
+                        className="px-3 py-2 ml-0 leading-tight text-white bg-primaryborder border-gray-300 rounded-lg hover:bg-primary-dark hover:text-gray-700 dark:bg-primary dark:border-gray-700 dark:text-white dark:hover:bg-primary-dark dark:hover:text-white disabled:bg-slate-500 disabled:cursor-not-allowed disabled:hover:bg-slate-500"
+                        disabled={currentPage>1?false:true}
+                      >
+                        Previous
+                      </button>
+                    </li>
+                    {totalPages.map((val,ind)=>(
+                    <li key={ind}>
+                        <button
+                        onClick={()=>{setCurrentPage(val);}}
+                        className="px-3 py-2 ml-0 leading-tight text-white bg-primaryborder border-gray-300 rounded-lg hover:bg-primary-dark hover:text-gray-700 dark:bg-primary dark:border-gray-700 dark:text-white dark:hover:bg-primary-dark dark:hover:text-white"
+                      >
+                        {val}
+                      </button>
+                  </li>
+                    ))}
+                    <li>
+                    <button
+                        onClick={()=>setCurrentPage(currentPage+1)}
+                        className="px-3 py-2 ml-0 leading-tight text-white bg-primaryborder border-gray-300 rounded-lg hover:bg-primary-dark hover:text-gray-700 dark:bg-primary dark:border-gray-700 dark:text-white dark:hover:bg-primary-dark dark:hover:text-white disabled:bg-slate-500 disabled:cursor-not-allowed disabled:hover:bg-slate-500"
+                        disabled={totalPages.length===currentPage?true:false}
+                      >
+                        Next
+                      </button>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+                <div className="flex flex-col w-1/2 rounded-xl items-start p-3 fixed bottom-10 left-1/3">    
+                <div className="my-3"><p className="text-primary-dark font-bold text-lg">Add Employee</p><input type="file" onChange={readXlData} accept=".xlsx,.xml,.csv"/></div>
+                <button onClick={uploadData} className="rounded-lg w-28 h-10 text-white font-bold text-md hover:bg-primary-dark bg-primary disabled:bg-slate-500 disabled:cursor-not-allowed" disabled={insertDisVal}>Insert Data</button>
+                </div>
               </div>
             ) : null}
           </div>
@@ -206,7 +308,7 @@ const AdminDash = () => {
         </div>
 
           {employEditCard ? (
-            <EmployeeEditCard onclick={() => setEmployEditCard(false)} name={employeeEditData.fname+" "+employeeEditData.lname} email={employeeEditData.email} role={employeeEditData.role} managerId={employeeEditData.managerId} managerName={employeeEditData.managerName} employId={employeeEditData._id}/>
+            <EmployeeEditCard onclick={() => setEmployEditCard(false)} fname={employeeEditData.fname} lname={employeeEditData.lname} email={employeeEditData.email} role={employeeEditData.role} managerId={employeeEditData.managerId} managerName={employeeEditData.managerName} employId={employeeEditData._id} password={employeeEditData.password}/>
           ) : null}
 
           {managerEditCard ? (

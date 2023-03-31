@@ -1,83 +1,55 @@
 import axios from "axios";
-import moment from "moment/moment";
+// import moment from "moment/moment";
 import React, { useCallback, useEffect, useState } from "react";
 import Navbar from "../../Navbar";
 
 const AdminReq = () => {
   const [leaves, setLeaves] = useState([]);
-  const [leaveStatus, setLeaveStatus] = useState("");
+  const [leaveStatus, setLeaveStatus] = useState("All");
   const [filterLeave, setFilterLeave] = useState("");
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
+  const [leaveLen, setLeaveLen] = useState();
+  // const [startDate, setStartDate] = useState(new Date());
+  // const [endDate, setEndDate] = useState(new Date());
   const [employeeName, setEmployeeName] = useState("");
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemPerpage, setItemPerPage] = useState(5);
   const totalPages = [];
 
-  const indexOfLastPage = currentPage * itemPerpage;
-  const indexOfFirstPage = indexOfLastPage - itemPerpage;
-  const currentLeave = leaves.slice(indexOfFirstPage, indexOfLastPage);
-  const [pervDes,setPrevDes] = useState(true);
-  const [nextDes,setnextDes] = useState(false);
+  // const indexOfLastPage = currentPage * itemPerpage;
+  // const indexOfFirstPage = indexOfLastPage - itemPerpage;
+  // const currentLeave = leaves.slice(indexOfFirstPage, indexOfLastPage);
 
-  for (let i = 1; i <= Math.ceil(leaves.length / itemPerpage); i++) {
+  for (let i = 1; i <= Math.ceil(leaveLen / 5); i++) {
     totalPages.push(i);
   }
 
   const fetchLeaves = useCallback(async () => {
+    console.log(leaveStatus);
     try {
-      const res = await axios.get("admin/leaves");
-      setLeaves(res.data);
+      const res = await axios.get(
+        `admin/leaves?status=${leaveStatus}&pageno=${currentPage}&name=${employeeName}`
+      );
+      setLeaves(res.data.data);
+      setLeaveLen(res.data.length);
     } catch (err) {
       alert(err);
     }
-  }, []);
-
-  const leaveFilterFun = () => {
-    if (filterLeave === "LW") {
-      setStartDate(new Date(startDate.setDate(startDate.getDate() - 7)));
-      setEndDate(new Date());
-    } else if (filterLeave === "LM") {
-      // setStartDate(new Date(startDate.setDate(28-(28-startDate.getDate()))));
-      setStartDate(new Date());
-      setEndDate(new Date());
-    }
-  };
-
-  const today = moment().format("MM/DD/YYYY");
-  const dayBeforeWeek = moment().subtract(7, "days").calendar();
-  console.log(today);
-  console.log(dayBeforeWeek);
-
-  // const createdFirstDate = moment(leaves[0].createdAt);
-  // console.log(leaves[0].createdAt);
-
-  // const filterData = leaves.filter(
-  //   (val)=>{
-  //     const created = new Date(val.createdAt);
-  //     if(created.getDate()>=startDate.getDate()&&created.getDate()<=endDate.getDate())
-  //     {
-  //      return val;
-  //     }
-  //   }
-  // );
+  }, [leaveStatus, currentPage, employeeName]);
 
   useEffect(() => {
     fetchLeaves();
-    // if(filterLeave!=="")
-    // {
-    //   leaveFilterFun();
-    //
-  }, []);
+  }, [leaveStatus, currentPage, employeeName]);
+
+  console.log(leaves);
 
   return (
     <>
       <Navbar />
-      <h1 className="font-bold text-2xl text-center text-primary-dark mt-5">Employee Leave List</h1>
-      
-      <div className="mt-5 p-5">
+      <h1 className="font-bold text-2xl text-center text-primary-dark mt-5">
+        Employee Leave List
+      </h1>
 
+      <div className="mt-5 p-5">
         <div className="grid grid-cols-12">
           <div className="col-span-4">
             <div className="relative">
@@ -119,8 +91,9 @@ const AdminReq = () => {
                 setLeaveStatus(e.target.value);
               }}
             >
-              <option defaultValue="status">Leave Status</option>
-              <option value="">All</option>
+              <option defaultValue="All" value="All">
+                All
+              </option>
               <option value="Pending">Pending</option>
               <option value="Accepted">Accepted</option>
               <option value="Rejected">Rejected</option>
@@ -176,7 +149,6 @@ const AdminReq = () => {
         ) : null}
 
         <div className="mt-5 p-5">
-
           <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
             <table className="w-full text-sm text-left">
               <thead className="text-md bg-slate-600 text-white">
@@ -208,21 +180,18 @@ const AdminReq = () => {
                 </tr>
               </thead>
               <tbody>
-                {currentLeave
-                  .filter(
-                    employeeName !== ""
-                      ? (val) => {
-                          const empname =
-                            val.employId.fname + " " + val.employId.lname;
-                          return empname
-                            .toLowerCase()
-                            .includes(employeeName.toLowerCase());
-                        }
-                      : (val) => val
-                  )
-                  .filter((val) =>
-                    leaveStatus ? val.status === leaveStatus : val
-                  )
+                {leaves
+                  // .filter(
+                  //   employeeName !== ""
+                  //     ? (val) => {
+                  //         const empname = val.employId.fname + " " + val.employId.lname;
+                  //         return empname.toLowerCase().includes(employeeName.toLowerCase());
+                  //       }
+                  //     : (val) => val
+                  // )
+                  // .filter((val) =>
+                  //   leaveStatus ? val.status === leaveStatus : val
+                  // )
                   // .filter(
                   //     filterLeave==="LW"?
                   //     (val)=>{
@@ -248,7 +217,8 @@ const AdminReq = () => {
                       key={ind}
                     >
                       <th scope="row" className="px-6 py-4 font-medium">
-                        {((currentPage-1)*itemPerpage)+ind+1}
+                        {((currentPage-1)*5)+ind+1}
+                         {/* {ind+1} */}
                       </th>
                       <td className="px-6 py-4">
                         {val.employId.fname || ""} {val.employId.lname || ""}
@@ -279,40 +249,40 @@ const AdminReq = () => {
           </div>
 
           <div className="flex flex-row justify-center mt-5">
-              <ul className="inline-flex -space-x-px">
-                <li>
-                  <button
-                    onClick={()=>setCurrentPage(currentPage-1)}
-                    className="px-3 py-2 ml-0 leading-tight text-white bg-primaryborder border-gray-300 rounded-lg hover:bg-primary-dark hover:text-gray-700 dark:bg-primary dark:border-gray-700 dark:text-white dark:hover:bg-primary-dark dark:hover:text-white disabled:bg-slate-500 disabled:cursor-not-allowed disabled:hover:bg-slate-500"
-                    disabled={currentPage>1?false:true}
-                  >
-                    Previous
-                  </button>
-                </li>
-                {totalPages.map((val,ind)=>(
+            <ul className="inline-flex -space-x-px">
+              <li>
+                <button
+                  onClick={() => setCurrentPage(currentPage - 1)}
+                  className="px-3 py-2 ml-0 leading-tight text-white bg-primaryborder border-gray-300 rounded-lg hover:bg-primary-dark hover:text-gray-700 dark:bg-primary dark:border-gray-700 dark:text-white dark:hover:bg-primary-dark dark:hover:text-white disabled:bg-slate-500 disabled:cursor-not-allowed disabled:hover:bg-slate-500"
+                  disabled={currentPage > 1 ? false : true}
+                >
+                  Previous
+                </button>
+              </li>
+              {totalPages.map((val, ind) => (
                 <li key={ind}>
-                    <button
-                    onClick={()=>{setCurrentPage(val);}}
+                  <button
+                    onClick={() => {
+                      setCurrentPage(val);
+                    }}
                     className="px-3 py-2 ml-0 leading-tight text-white bg-primaryborder border-gray-300 rounded-lg hover:bg-primary-dark hover:text-gray-700 dark:bg-primary dark:border-gray-700 dark:text-white dark:hover:bg-primary-dark dark:hover:text-white"
                   >
                     {val}
                   </button>
-              </li>
-                ))}
-                <li>
-                <button
-                    onClick={()=>setCurrentPage(currentPage+1)}
-                    className="px-3 py-2 ml-0 leading-tight text-white bg-primaryborder border-gray-300 rounded-lg hover:bg-primary-dark hover:text-gray-700 dark:bg-primary dark:border-gray-700 dark:text-white dark:hover:bg-primary-dark dark:hover:text-white disabled:bg-slate-500 disabled:cursor-not-allowed disabled:hover:bg-slate-500"
-                    disabled={totalPages.length===currentPage?true:false}
-                  >
-                    Next
-                  </button>
                 </li>
-              </ul>
+              ))}
+              <li>
+                <button
+                  onClick={() => setCurrentPage(currentPage + 1)}
+                  className="px-3 py-2 ml-0 leading-tight text-white bg-primaryborder border-gray-300 rounded-lg hover:bg-primary-dark hover:text-gray-700 dark:bg-primary dark:border-gray-700 dark:text-white dark:hover:bg-primary-dark dark:hover:text-white disabled:bg-slate-500 disabled:cursor-not-allowed disabled:hover:bg-slate-500"
+                  disabled={totalPages.length === currentPage ? true : false}
+                >
+                  Next
+                </button>
+              </li>
+            </ul>
           </div>
-
         </div>
-
       </div>
     </>
   );

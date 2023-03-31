@@ -44,8 +44,8 @@ const ManagerEditCard = ({onclick,name,email,role,managerId,managerDataId}) => {
         <span className="text-md text-black font-semibold">{email}</span>
       </div>
 
-      <div className="my-3 text-lg font-bold text-primary-dark">{role}</div>
-
+      <div className="my-3 text-lg font-bold text-primary-dark"><span className="text-lg font-bold text-primary-dark">Role- </span>
+       {role==="M"?"Manager":null}</div>
 
       <div className="my-3">
         <span className="text-lg font-bold text-primary-dark">

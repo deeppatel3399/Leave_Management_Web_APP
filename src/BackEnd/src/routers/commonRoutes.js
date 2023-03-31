@@ -129,7 +129,7 @@ commonRouter.post("/login",async (req,res)=>{
     }
     else
     {
-        res.json({error:"Invalid Credentials",status:404});
+        return res.json({error:"Invalid Credentials",status:404});
     }
     res.json({data:"Invalid Credentials",status:404});
  
