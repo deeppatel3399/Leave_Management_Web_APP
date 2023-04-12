@@ -2,6 +2,7 @@ const express = require("express");
 const leaveRouter = express.Router();
 const mongoose = require("mongoose");
 const User = mongoose.model("userdata");
+const Manager =  mongoose.model("managerdata");
 const UserLeave = mongoose.model("LeaveList");
 
 
@@ -24,7 +25,7 @@ leaveRouter.post('/acceptupdateleave',async(req,res)=>{
 
 leaveRouter.post('/rejectupdateleave',async(req,res)=>{
 
-    const{leaveId,employId,status,managerNote,days} = req.body;
+    const{leaveId,employId,status,managerNote,days,role} = req.body;
 
     try{
 
@@ -32,12 +33,26 @@ leaveRouter.post('/rejectupdateleave',async(req,res)=>{
              status,managerNote
       }}).then(async()=>{
 
-        const currentDays = await User.findOne({_id:employId});
-        const actualDays = currentDays.remainingLeaveDays+days;
+        if(role==='E')
+        {
+          const currentDays = await User.findOne({_id:employId});
+          const actualDays = currentDays.remainingLeaveDays+days;
+  
+          await User.findByIdAndUpdate({_id:employId},{$set:{
+              remainingLeaveDays:actualDays
+          }})
+        }
+        else if(role==="M")
+        {
+          const currentDays = await Manager.findOne({_id:employId});
+          const actualDays = currentDays.remainingLeaveDays+days;
+  
+          await Manager.findByIdAndUpdate({_id:employId},{$set:{
+              remainingLeaveDays:actualDays
+          }})
+        }
 
-        await User.findByIdAndUpdate({_id:employId},{$set:{
-            remainingLeaveDays:actualDays
-        }})
+
          return res.json({data:'Leave Update Successfully',status:200});
       })
     }

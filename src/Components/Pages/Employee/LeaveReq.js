@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import "../../../App.css";
 import Navbar from "../../Navbar";
-import Footer from "../../Footer";
 
 const LeaveReq = () => {
   const [firstDate, setFirstDate] = useState("");
@@ -61,6 +60,7 @@ const LeaveReq = () => {
     }
     axios
       .post("user/leavereq", {
+        token:window.localStorage.getItem("token"),
         employId,
         fromDate: firstDate,
         toDate: lastDate,
@@ -105,7 +105,6 @@ const LeaveReq = () => {
         }
         diffDay = diffDay-countholiday;
         setDays(diffDay);
-        console.log(days);
        }
   };
   const clear = () => {
@@ -227,7 +226,8 @@ const LeaveReq = () => {
             <span className="validmsg">{toDateValid}</span>
           </div>
         </div>
-
+       
+       <div className="flex flex-row justify-between w-96">
         <div className="mt-5 pl-5">
           <p className="inputboxetitle">
             Time Off Category<span className="reuiredfield">*</span>
@@ -251,11 +251,12 @@ const LeaveReq = () => {
           <span className="validmsg">{reasonValid}</span>
         </div>
 
-        <div className="mt-5 pl-5">
+        <div className="mt-5 pl-10">
           <p className="inputboxetitle">
             Days<span className="reuiredfield">*</span>
           </p>
           <div className="daysdiv">{days?days:0}</div>
+        </div>
         </div>
 
         <div className="mt-5 pl-5">
@@ -281,7 +282,6 @@ const LeaveReq = () => {
           Cancel
         </button>
       </div>
-      <Footer />
     </>
   );
 };

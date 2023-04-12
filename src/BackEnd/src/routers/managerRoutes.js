@@ -34,9 +34,10 @@ managerRouter.post("/allemploy",async(req,res)=>{
 
     try
     {
+        const managerData = await Manager.find({superManagerId:managerId});
         const employData = await User.find({managerId});
 
-        return res.json({data:employData,status:200});
+        return res.json({employeeData:employData,managerData:managerData,status:200});
 
     }
     catch(err)

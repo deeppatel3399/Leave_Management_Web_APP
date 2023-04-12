@@ -6,7 +6,9 @@
   @apply text-white font-bold hover:text-primary;
 }
 .navlinkstyle {
-  @apply  text-white font-bold hover:text-primary mr-10;
+  @apply  text-white font-bold mr-10 h-8 px-2 py-1
+   /* bg-primary rounded*/
+    hover:bg-primary hover:rounded hover:h-8 hover:px-2 hover:py-1;
 }
 /* Navbar styel*/
 
@@ -42,13 +44,13 @@
   @apply w-80 border-solid border-2  required:border-error h-10;
 }
 .daysdiv {
-  @apply w-20 border-solid border-2  bg-white text-black required:border-error;
+  @apply w-20 h-8 text-center align-middle border-solid border-2  bg-white text-black required:border-error;
 }
 .notestyle {
   @apply w-80 border-solid border-2;
 }
 .btnsection {
-  @apply flex flex-row w-full h-24 bg-gray-300 pt-10;
+  @apply flex flex-row w-full h-32 bg-gray-300 pt-10;
 }
 .submitbtnstyle {
   @apply bg-primary hover:bg-primary-dark text-white font-bold text-lg h-8  ml-16 rounded w-40 text-center disabled:hover:bg-gray-600 disabled:cursor-not-allowed disabled:bg-gray-600;
@@ -60,10 +62,10 @@
 
 /* LeaveList Page style */
 .listmaincontainer {
-  @apply bg-primary py-5 px-10;
+  @apply py-5 px-10;
 }
 .listheading {
-  @apply text-3xl pb-5 text-white font-extrabold text-center;
+  @apply text-3xl pb-5 text-primary-dark font-extrabold text-center;
 }
 .tablecontainer {
   @apply flex justify-center my-10;

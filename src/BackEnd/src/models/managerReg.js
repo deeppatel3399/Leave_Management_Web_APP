@@ -8,6 +8,8 @@ const managerReg = new mongoose.Schema(
     password : {type:String,require:true},
     role:{type:String,require:true,enum:["E","M"]},
     managerId:{type:String,require:true,unique:true},
+    superManagerId:{type:String,unique:true},
+    remainingLeaveDays:{type:Number,default:28}
     },
     {
         collection: "managerdata",

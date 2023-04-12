@@ -29,13 +29,15 @@ const EmployLeaveReqCard = (props)=>
   {
     const leaveId = leaveData._id;
     const employId = leaveData.employId;
+    const role = leaveData.role;
 
     axios.post('leave/rejectupdateleave',{
       leaveId:leaveId,
       employId,
       status:'Rejected',
       managerNote,
-      days:props.days
+      days:props.days,
+      role
     }).then((data)=>{
       console.log(data);
       if(data.data.status===200)
@@ -46,7 +48,7 @@ const EmployLeaveReqCard = (props)=>
   };
 
   useEffect(()=>{
-    if(leaveData.status==="Accepted" || leaveData.status==="Rejected" || leaveData.status==="Cancelled")
+    if(props.status==="Accepted" || props.status==="Rejected" || props.status==="Cancelled")
     {
       setDisVal(true);
     }
@@ -54,7 +56,7 @@ const EmployLeaveReqCard = (props)=>
     {
       setDisVal(false);
     }
-  },[disVal]);
+  },[disVal,accept,reject]);
 
 
   return (
@@ -87,7 +89,7 @@ const EmployLeaveReqCard = (props)=>
            </div>
          :<div>
           <p className='text-white text-md  font-semibold'>Your Note</p>
-          <div className='w-full border-black rounded-md bg-white text-black px-3 py-1 h-10'>{leaveData.managerNote}</div>
+          <div className='w-full border-black rounded-md bg-white text-black px-3 py-1 h-10'>{props.managerNote}</div>
           </div>
          }
 

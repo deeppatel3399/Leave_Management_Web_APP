@@ -14,7 +14,7 @@ const superAdmin = mongoose.model("superAdmin");
 
 commonRouter.post("/register",async (req,res)=>{
 
-    const {fname,lname,email,password,role,managerId,managerName} = req.body;
+    const {fname,lname,email,password,role,managerId,managerName,superManagerId} = req.body;
 
     const encryptPass = await bcrypt.hash(password,10);
 
@@ -57,7 +57,7 @@ commonRouter.post("/register",async (req,res)=>{
         else
         {
             await Manager.create({
-                fname,lname,email,password:encryptPass,role,managerId
+                fname,lname,email,password:encryptPass,role,managerId,superManagerId
             });
             res.json({data:'Manager Insert Data Succefully',status:201});
         }

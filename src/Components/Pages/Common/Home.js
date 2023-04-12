@@ -1,6 +1,5 @@
 import React from 'react';
 import Navbar from '../../Navbar';
-import Footer from '../../Footer';
 import Login from './Login';
 
 const Home = () => {
@@ -8,7 +7,6 @@ const Home = () => {
     <>
     <Navbar/>
     <Login/>
-    <Footer/>
     </>
   );
 };

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { NavLink } from 'react-router-dom';
 import Navbar from '../../Navbar';
-import Footer from '../../Footer';
 import '../../../App.css';
 
 const Register = () => {
@@ -14,6 +13,7 @@ const Register = () => {
   const[role,setRole] = useState("select");
   const[confPassword,setConfPassword] = useState("");
   const[managerId,setManagerId] = useState("");
+  const[superManagerId,setSuperManagerId] = useState("");
   const[managerName,setManagerName] = useState("");
   const[disval,setDisVal] = useState(true);
  
@@ -23,6 +23,7 @@ const Register = () => {
   const[lNameErr,setLNameErr] = useState("");
   const[confPassErr,setConfPassErr] = useState("");
   const[managerIdErr,setManagerIdErr] = useState("");
+  const[superManagerIdErr,setSuperManagerIdErr] = useState("");
   const[roleErr,setRoleErr] = useState("");
   
   const checkEmail = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
@@ -123,6 +124,28 @@ const Register = () => {
         }
       }
   }
+  const supermanageridblur = () =>
+  {
+      if(superManagerId==="")
+      {
+        setManagerIdErr("Enter Your Manager Id");
+      }
+      else
+      {
+        if(superManagerId.match(manageridcheck))
+        {
+            setSuperManagerIdErr("");
+        }
+        else if(managerId.length>10)
+        {
+            setSuperManagerIdErr("Max 10 characater Allow");
+        }
+        else
+        {
+            setSuperManagerIdErr("Id must have one character,one number and not include any special character");
+        }
+      }
+  }
   const registerbtn = () =>
   {
      if(email==="")
@@ -148,6 +171,7 @@ const Register = () => {
         password:password,
         role,
         managerId,
+        superManagerId,
         managerName
      })
      .then((data)=>{
@@ -244,9 +268,7 @@ const Register = () => {
             setDisVal(false);
         }
     }
-  },[email,password,checkEmail,passCheck,confPassword,fName,lName,fNameErr,lNameErr,managerId,managerIdErr,manageridcheck,role])
-
-  console.log(role);
+  },[email,password,checkEmail,passCheck,confPassword,fName,lName,fNameErr,lNameErr,managerId,managerIdErr,manageridcheck,role,superManagerId,superManagerIdErr])
 
   return (
     <>
@@ -300,6 +322,7 @@ const Register = () => {
                 ):
                 <>
                 <input className='mt-5 reginputsstyle' name='manager_id' id='manager_id' value={managerId} onChange={(e)=>{setManagerId(e.target.value)}} onBlur={manageridblur} type="text" placeholder='Enter Your Id'/>
+                <input className='mt-5 reginputsstyle' name='super_manager_id' id='super_manager_id' value={superManagerId} onChange={(e)=>{setSuperManagerId(e.target.value)}} onBlur={supermanageridblur} type="text" placeholder='Enter Your Manager Id'/>
                 </>
              }
              
@@ -313,7 +336,6 @@ const Register = () => {
 
       </div>
     </div>
-    <Footer/>
     </>
   );
 };

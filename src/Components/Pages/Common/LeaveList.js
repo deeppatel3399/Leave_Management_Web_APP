@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import '../../../App.css';
 import data from '../../../api/leaveapi.json';
 import Navbar from '../../Navbar';
-import Footer from '../../Footer';
 
 const LeaveList = () => {
 
@@ -16,7 +15,7 @@ const LeaveList = () => {
     <>
     <Navbar/>
     <div className='listmaincontainer'>
-      <p className='listheading'>Holiday List</p>
+      <p className='listheading'><i className="fa-solid fa-list-check mr-3"></i>Holiday List</p>
       <hr/>
       <div className='tablecontainer'>
           <table className="tablestyle">
@@ -43,7 +42,6 @@ const LeaveList = () => {
         </table>
   </div>
     </div>
-    <Footer/>
     </>
   );
 };

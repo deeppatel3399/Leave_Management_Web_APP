@@ -1,12 +1,16 @@
-import React, { useEffect, useState ,useCallback } from 'react';
+import React, { useEffect, useState ,useCallback,Image } from 'react';
 import axios from 'axios';
 import Navbar from '../../Navbar';
-import Footer from '../../Footer';
+import nodata from '../../../Images/nodata.png';
+import {MdPendingActions} from 'react-icons/md';
+import {FcDeleteDatabase} from 'react-icons/fc';
 
 const LeaveStatus = () => {
 
 const[leaveData,setLeaveData] = useState([]);
 // const [days,setDays] = useState("");
+
+const [isLoading,setIsLoading] = useState(true);
 
 const cancelLeave = useCallback((leaveId)=>
 {
@@ -25,28 +29,84 @@ const cancelLeave = useCallback((leaveId)=>
   }
 },[]);
 
-useEffect(()=>{
-
-    axios.post("user/leavestatus",{
+const fetchleave = ()=>
+{
+      axios.post("user/leavestatus",{
         token:window.localStorage.getItem("token")
     })
     .then((data)=>{
     if(data.data.status===200)
     {
-       setLeaveData(data.data.data);
+       setLeaveData(data.data.data.reverse());
+       setIsLoading(false);
     }
     })
+}
 
-});
+useEffect(()=>{
+  fetchleave();
+},[]);
 
   return (
     <>
     <Navbar/>
     <div className='leavestatusmaincontainer'>
 
-        <p className='lsheadingtext text-center text-3xl text-primary-dark font-bold mt-5'>Leave Request Status</p>
+        <p className='lsheadingtext flex flex-row justify-center text-3xl text-primary-dark font-bold mt-5'><MdPendingActions size={40}/>Leave Request Status</p>
+        <hr className='my-5 mx-20'/>
 
         <div className='lstabelstyle'>
+        {
+          leaveData.length===0&&isLoading===false?
+
+
+          <div className='text-center my-5'>
+            <div className='w-full h-1/2  flex flex-row justify-center'><img src={nodata} alt="nodataimage"/></div>
+            <div className='text-error text-lg font-bold justify-center m-0 flex flex-row'><FcDeleteDatabase size={30}/>No Leaves Found...</div>
+          </div>:
+
+
+
+        isLoading===true?
+        <div role="status" class="m-10 space-y-4 border border-gray-200 divide-y divide-gray-200 rounded shadow animate-pulse dark:divide-gray-700 md:p-6 dark:border-gray-700">
+            <div class="flex items-center justify-between">
+                <div>
+                    <div class="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
+                    <div class="w-32 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+                </div>
+                <div class="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
+            </div>
+            <div class="flex items-center justify-between pt-4">
+                <div>
+                    <div class="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
+                    <div class="w-32 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+                </div>
+                <div class="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
+            </div>
+            <div class="flex items-center justify-between pt-4">
+                <div>
+                    <div class="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
+                    <div class="w-32 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+                </div>
+                <div class="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
+            </div>
+            <div class="flex items-center justify-between pt-4">
+                <div>
+                    <div class="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
+                    <div class="w-32 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+                </div>
+                <div class="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
+            </div>
+            <div class="flex items-center justify-between pt-4">
+                <div>
+                    <div class="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
+                    <div class="w-32 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+                </div>
+                <div class="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
+            </div>
+            <span class="sr-only">Loading...</span>
+        </div>
+        :
         <table className="tablestyle mx-20 my-10">
         <thead>
           <tr className='border-2 border-black'>
@@ -79,10 +139,10 @@ useEffect(()=>{
           ))}
         </tbody>
         </table>
+        }
         </div>
 
     </div>
-    <Footer/>
     </>
   );
 };

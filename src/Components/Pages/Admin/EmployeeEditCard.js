@@ -2,12 +2,14 @@ import axios from "axios";
 import React from "react";
 import { useState } from "react";
 
-const EmployeeEditCard = ({onclick,fname,lname,password,email,role,managerId,managerName,employId}) => {
+const EmployeeEditCard = ({onclick,fname,lname,password,email,role,managerId,managerName,employId,data}) => {
 
   const [newRole,setNewRole] = useState(role);
   const [newManagerId,setNewManagerId] = useState(managerId);
   const [newManagerName,setNewManagerName] = useState(managerName);
-  // const [employeeNewManagerId,setEmployeeNewManagerId] = useState("");
+
+  const [selectManagerId,setSelectManagerId] = useState(managerId);
+  const [selectManagerName,setSelectManagerName] = useState(managerName);
 
   const employeeUpdate = ()=>
   {
@@ -18,9 +20,8 @@ const EmployeeEditCard = ({onclick,fname,lname,password,email,role,managerId,man
       email,
       password,
       role:newRole,
-      managerId:newManagerId,
-      managerName:newManagerName,
-      // employeeNewManagerId
+      managerId:selectManagerId,
+      managerName:selectManagerName,
     }).then((data)=>{
       if(data.data.status===200)
       {
@@ -68,14 +69,41 @@ const EmployeeEditCard = ({onclick,fname,lname,password,email,role,managerId,man
         <span className="text-lg font-bold text-primary-dark">
           Manager-Id-{" "}
         </span>
-        <input type="text" value={newManagerId} onChange={(e)=>{setNewManagerId(e.target.value)}} className="h-10 p-3 rounded-lg"/>
+
+        <select 
+              value={selectManagerId}
+              onChange={(e) => {
+               setSelectManagerId(e.target.value);
+              }}
+        >
+        <option value={selectManagerId}>{selectManagerId}</option>
+          {
+            data.map((val,ind)=>
+            <option key={ind} value={val.managerId}>{val.managerId}</option>
+            )
+          }
+        </select>
+
       </div>
 
       <div className="my-3">
         <span className="text-lg font-bold text-primary-dark">
           Manager Name-{" "}
         </span>
-        <input type="text" value={newManagerName} onChange={(e)=>{setNewManagerName(e.target.value)}} className="h-10 p-3 rounded-lg"/>
+
+        <select value={selectManagerName} onChange={(e)=>{setSelectManagerName(e.target.value)}}>
+          {
+            // managerId==selectManagerId?
+            data.filter((val)=>val.managerId===selectManagerId?val:null).map((val,ind)=>
+            <option key={ind} value={val.fname+" "+val.lname}>{val.fname+" "+val.lname}</option>   
+             )
+            
+            // data.map((val,ind)=>(
+            //   <option key={ind} value={val.fname+" "+val.lname}>{val.fname+" "+val.lname}</option>   
+            // ))
+          }
+        </select>
+       
       </div>
       </div>
       :

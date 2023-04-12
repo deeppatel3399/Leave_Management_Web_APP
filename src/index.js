@@ -39,6 +39,8 @@ const managerrouters = createBrowserRouter(createRoutesFromElements(
         <Route path='/dash' element={<ManagerDash/>}/>
         <Route path='/newpassword' element={<ConfirmPass/>}/>
         <Route path='/holidaylist' element={<LeaveList/>}/>
+        <Route path='/leavereq' element={<LeaveReq/>}/>
+        <Route path='/leavestatus' element={<LeaveStatus/>}/>
    </Route>
 ));
 
@@ -69,7 +71,19 @@ const commonrouters = createBrowserRouter(createRoutesFromElements(
 ));
 
 const emailrouter = createBrowserRouter(createRoutesFromElements(
+  <Route>
+  <Route path='/' element={<App/>}/>
+  <Route path='/holidaylist' element={<LeaveList/>}/>
+  <Route path='/register' element={<Register/>}/>
+  <Route path='/forgotpassword' element={<ForgotPass/>}/>
   <Route path='/resetpassword' element={<ResetPass/>}/>
+  <Route path='/newpassword' element={<App/>}/>
+  <Route path='/leavereq' element={<App/>}/>
+  <Route path='/leavestatus' element={<App/>}/>
+  <Route path='/dash' element={<App/>}/>
+  <Route path='/admindash' element={<App/>}/>
+  <Route path='/allreq' element={<App/>}/>
+</Route>
 ));
 
 // function for routing different paths
