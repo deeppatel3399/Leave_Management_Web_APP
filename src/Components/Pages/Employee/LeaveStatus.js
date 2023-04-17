@@ -8,22 +8,21 @@ import {FcDeleteDatabase} from 'react-icons/fc';
 const LeaveStatus = () => {
 
 const[leaveData,setLeaveData] = useState([]);
-// const [days,setDays] = useState("");
 
 const [isLoading,setIsLoading] = useState(true);
 
 const cancelLeave = useCallback((leaveId)=>
 {
-  if(window.confirm("Cancel Leave?"))
+  if(window.confirm("Are You Sure?"))
   {
     axios.post("leave/cancelleave",{
       leaveId,
       status:'Cancelled',
-      // days:days
     }).then((data)=>{
       if(data.data.status===200)
       {
         alert("Leave Cancelled Successfully");
+        fetchleave();
       }
     })
   }
@@ -45,7 +44,7 @@ const fetchleave = ()=>
 
 useEffect(()=>{
   fetchleave();
-},[]);
+},[cancelLeave]);
 
   return (
     <>

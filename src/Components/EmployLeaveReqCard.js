@@ -1,4 +1,4 @@
-import React,{ useEffect,useState } from 'react';
+import React,{ useEffect,useRef,useState } from 'react';
 import axios from 'axios';
 
 const EmployLeaveReqCard = (props)=> 
@@ -8,9 +8,12 @@ const EmployLeaveReqCard = (props)=>
   const[managerNote,setManagerNote] = useState("");
   const[disVal,setDisVal] = useState(false);
 
+  const {fetchLeave} = props;
+
   const accept = ()=>
   {
     const leaveId = leaveData._id;
+    const employId = leaveData.employId;
 
     axios.post('leave/acceptupdateleave',{
       leaveId,
@@ -24,6 +27,8 @@ const EmployLeaveReqCard = (props)=>
         alert("Leave Update Successfully");
       }
     });
+
+    fetchLeave(employId);
   };
   const reject = ()=>
   {
@@ -39,12 +44,13 @@ const EmployLeaveReqCard = (props)=>
       days:props.days,
       role
     }).then((data)=>{
-      console.log(data);
       if(data.data.status===200)
       {
         alert("Leave Update Successfully");
       }
     });
+
+    fetchLeave(employId);
   };
 
   useEffect(()=>{

@@ -12,6 +12,8 @@ import ManagerDash from './Components/Pages/Manager/ManagerDash';
 import AdminDash from './Components/Pages/Admin/AdminDash';
 import AdminReq from './Components/Pages/Admin/AdminReq';
 import reportWebVitals from './reportWebVitals';
+import PieChart from './Components/Pages/Manager/PieChart';
+import BarChart from './Components/Pages/Admin/BarChart';
 import {createBrowserRouter,RouterProvider,Route,createRoutesFromElements} from 'react-router-dom';
 import axios from 'axios';
 import ResetPass from './Components/Pages/Common/ResetPass';
@@ -41,6 +43,7 @@ const managerrouters = createBrowserRouter(createRoutesFromElements(
         <Route path='/holidaylist' element={<LeaveList/>}/>
         <Route path='/leavereq' element={<LeaveReq/>}/>
         <Route path='/leavestatus' element={<LeaveStatus/>}/>
+        <Route path='/piechart' element={<PieChart/>}/>
    </Route>
 ));
 
@@ -51,6 +54,7 @@ const adminrouters = createBrowserRouter(createRoutesFromElements(
       <Route path='/allreq' element={<AdminReq/>}/>
       <Route path='/newpassword' element={<ConfirmPass/>}/>
       <Route path='/holidaylist' element={<LeaveList/>}/>
+      <Route path='/barchart' element={<BarChart/>}/>
    </Route>
 ));
 

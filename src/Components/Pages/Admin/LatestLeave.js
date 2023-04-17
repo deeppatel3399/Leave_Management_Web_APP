@@ -3,7 +3,7 @@ import React from "react";
 const LatestLeave = (props) => {
   return (
     <>
-      <div className="bg-light rounded-xl px-4 py-2 w-4/5">
+      <div className={`${props.className?"max-w-1/3 h-80 bg-light rounded-xl px-4 py-2":"bg-light rounded-xl px-4 py-2 w-4/5"}`}>
         <div className="mb-3">
           <div className="text-center text-primary-dark font-bold text-lg">{props.name}</div>
 

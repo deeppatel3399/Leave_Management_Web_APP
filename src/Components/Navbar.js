@@ -118,7 +118,9 @@ const Navbar = () => {
                     <li className='pb-3'><button className='navlinkstyle' onClick={logoutbtn}>Log Out</button></li>
                     <li className='pb-3'><NavLink className="navlinkstyle" to='/newpassword'>Change Password</NavLink></li>
                     {role==="E"||role==="M"?
+                    <>
                     <li className='pb-3'><NavLink className='navlinkstyle' to="/leavestatus">Leave Status</NavLink></li>
+                    </>
                     :null
                     }
                   </ul>
@@ -134,6 +136,7 @@ const Navbar = () => {
                 :role==="M"?
                 <>
                 <NavLink  className={`navlinkstyle flex ${activeBtn==="/dash"?"bg-primary rounded":""}`} to="/dash"  onClick={()=>{setActiveBtn("/dash")}}><MdSpaceDashboard size={25}/>Dashboard</NavLink>
+                <div className="fixed inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full mr-32 top-1 dark:border-gray-900">4</div>
                 <NavLink  className={`navlinkstyle flex ${activeBtn==="/leavereq"?"bg-primary rounded":""}`} to="/leavereq"  onClick={()=>{setActiveBtn("/leavereq")}}>Leave Request</NavLink>
                 </>
                 :role==="SA"?
@@ -141,7 +144,7 @@ const Navbar = () => {
                 
                 <button type="button" className="relative inline-flex items-center text-center">
                   <NavLink  className={`navlinkstyle flex ${activeBtn==="/admindash"?"bg-primary rounded":""}`} to="/admindash"  onClick={()=>{setActiveBtn("/admindash")}}><MdSpaceDashboard size={25}/>Dashboard</NavLink>
-                  <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full right-4 -top-2 dark:border-gray-900">4</div>
+                  {/* <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full right-4 -top-2 dark:border-gray-900">4</div> */}
                 </button>
                 <NavLink  onClick={()=>{setActiveBtn("/allreq")}} className={`navlinkstyle ${activeBtn==="/allreq"?"bg-primary rounded":""}`} to="/allreq">Requests</NavLink>
                 </>

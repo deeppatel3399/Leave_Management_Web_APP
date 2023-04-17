@@ -4,6 +4,8 @@ import Navbar from "../../Navbar";
 import { RiFileList2Fill } from "react-icons/ri";
 import nodata from "../../../Images/nodata.png";
 import { utils, writeFile } from "xlsx";
+import LatestLeave from "./LatestLeave";
+import BarChart from './BarChart';
 
 function flatten(obj) {
   var result = {};
@@ -41,6 +43,10 @@ const AdminReq = () => {
   const [filterLeave, setFilterLeave] = useState("");
   const [leaveLen, setLeaveLen] = useState();
 
+  const [isLeaveView,setIsLeaveView] = useState(false);
+  const [isBarShow,setIsBarShow] = useState(false);
+  const [viewLeaveData,setViewLeaveData] = useState([]);
+
   const [isLoading, setIsLoading] = useState(true);
 
   const [fromDate, setFromDate] = useState(new Date());
@@ -69,7 +75,7 @@ const AdminReq = () => {
     } catch (err) {
       alert(err);
     }
-  }, [toDate, filterLeave, leaveStatus, currentPage, employeeName]);
+  }, [toDate, filterLeave, leaveStatus, currentPage, employeeName,isLeaveView]);
 
   const downloadData = () => {
     const worksheet = utils.json_to_sheet(allLeaves);
@@ -80,7 +86,7 @@ const AdminReq = () => {
 
   useEffect(() => {
     fetchLeaves();
-  }, [toDate, filterLeave, leaveStatus, currentPage, employeeName]);
+  }, [toDate, filterLeave, leaveStatus, currentPage, employeeName,isLeaveView]);
 
   return (
     <>
@@ -222,7 +228,7 @@ const AdminReq = () => {
             </div>
           ) : (
             <>
-              <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+              <div className="relative overflow-x-auto shadow-md sm:rounded-lg -mt-5">
                 <table className="w-full text-sm text-left">
                   <thead className="text-md bg-slate-600 text-white">
                     <tr>
@@ -276,7 +282,8 @@ const AdminReq = () => {
                         <td className="px-6 py-4">{val.days}</td>
                         <td className="px-6 py-4">{val.typeOfLeave}</td>
                         <td className="px-6 py-4 text-left">
-                          <button className="w-14 hover:bg-primary-dark h-8 rounded-md bg-primary text-white font-bold text-center">
+                          <button className="w-14 hover:bg-primary-dark h-8 rounded-md bg-primary text-white font-bold text-center"
+                          onClick={()=>{isLeaveView===true?setIsLeaveView(false):setIsLeaveView(true);setViewLeaveData(val)}}>
                             View
                           </button>
                         </td>
@@ -287,7 +294,7 @@ const AdminReq = () => {
               </div>
 
               <div className="flex flex-row justify-center">
-                <div className="flex flex-row justify-center mt-5 fixed bottom-20">
+                <div className="flex flex-row justify-center mt-12 fixed bottom-10">
                   <ul className="inline-flex -space-x-px">
                     <li>
                       <button
@@ -327,17 +334,63 @@ const AdminReq = () => {
                     </li>
                   </ul>
                 </div>
+                <div className="flex flex-row justify-between">
                 <button
                   className="w-40 text-center rounded bg-primary hover:bg-primary-dark h-10 text-white font-bold fixed bottom-13 right-10"
                   onClick={downloadData}
                 >
                   Export Leave Data
                 </button>
+                <button
+                  className="w-40 text-center rounded bg-primary hover:bg-primary-dark h-10 text-white font-bold fixed bottom-13 right-52"
+                  onClick={()=>{setIsBarShow(!isBarShow)}}
+                >
+                  Stats
+                </button>
+                </div>
               </div>
             </>
           )}
         </div>
       </div>
+      {isLeaveView===true?
+              // <div className="w-full h-full">
+              <div className="absolute bottom-0 w-full flex justify-center backdrop-blur-sm items-center bg-black bg-opacity-50 h-full">
+                <button
+                  className="fixed top-56 ml-96"
+                  onClick={()=>{setIsLeaveView(false)}}>
+                  <i className="fa-solid fa-xmark text-xl hover:text-red-500 font-bold "></i>
+                </button>
+                <LatestLeave
+                     className="max-w-1/3 h-80 bg-light rounded-xl px-4 py-2"
+                      name={viewLeaveData.name||""}
+                      fromDate={new Date(viewLeaveData.fromDate).toLocaleDateString(
+                        "in-en"
+                      )}
+                      toDate={new Date(viewLeaveData.toDate).toLocaleDateString("in-en")}
+                      days={viewLeaveData.days}
+                      note={viewLeaveData.note}
+                      managerNote={viewLeaveData.managerNote}
+                      status={viewLeaveData.status}
+                />
+              </div>
+              // </div>
+          :null
+        }
+        {
+          isBarShow===true?
+          <div className="absolute bottom-0 w-full flex justify-center backdrop-blur-sm items-center bg-slate-500 bg-opacity-60 h-full">
+            <button
+              className="fixed top-10 right-1/4"
+              onClick={()=>{setIsBarShow(false)}}>
+              <i className="fa-solid fa-xmark text-4xl hover:text-red-500 text-red-500 font-bold "></i>
+            </button>
+          <BarChart
+          data={allLeaves}/>
+          </div>
+          :
+          null
+        }
     </>
   );
 };

@@ -177,7 +177,9 @@ adminRouter.post("/updateEmployee", async (req, res) => {
     password,
     role,
     managerId,
+    updateManagerId,
     managerName,
+    superManagerId
   } = req.body;
 
   try {
@@ -200,7 +202,8 @@ adminRouter.post("/updateEmployee", async (req, res) => {
         email,
         password,
         role,
-        managerId,
+        managerId:updateManagerId,
+        superManagerId
       }).then(async () => {
         await User.findByIdAndDelete({ _id: employId });
         await UserLeave.deleteMany({ employId: employId });

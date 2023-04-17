@@ -455,6 +455,7 @@ const AdminDash = () => {
           role={managerEditData.role}
           managerId={managerEditData.managerId}
           managerDataId={managerEditData._id}
+          superManagerId={managerEditData.superManagerId}
         />
       ) : null}
     </div>

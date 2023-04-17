@@ -71,7 +71,7 @@ const Manager = mongoose.model("managerdata");
             $or:[{fromDate:{$gte:fromDate, $lte:toDate}},
                 {toDate:{$gte:fromDate, $lte:toDate}},
                 {$and:[{fromDate:{$lte:fromDate}}, {toDate:{$gte:toDate}}]},],
-            $nor:[{status:"R"}, {status:"C"}],});
+            $nor:[{status:"Rejected"}, {status:"Cancelled"}],});
             if(leaveOnSameDate)
             {
                  return res.send({message: "Leave can't be applied for same days twice.",status: 409,})

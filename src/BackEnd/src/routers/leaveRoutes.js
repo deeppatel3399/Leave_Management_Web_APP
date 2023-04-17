@@ -66,14 +66,37 @@ leaveRouter.post('/cancelleave',async(req,res)=>{
     const{leaveId,status} = req.body;
 
     try{
-        // const leaveData = await UserLeave.findOne({_id:leaveId});
-        // const currentDay = leaveData.remainingLeaveDays;
 
+      const leaveData = await UserLeave.findOne({_id:leaveId});
+      const days = leaveData.days;
+      const userId = leaveData.employId;
+      const role = leaveData.role;
+
+      if(role==='E')
+      {
+        const user = await User.findOne({_id:userId});
+
+        const cuurentUserDays = user.remainingLeaveDays;
+
+        await User.findByIdAndUpdate({_id:userId},{$set:{
+          remainingLeaveDays:cuurentUserDays+days
+        }})
+      }
+
+      else if(role==="M")
+      {
+        const user = await Manager.findOne({_id:userId});
+
+        const cuurentUserDays = user.remainingLeaveDays;
+
+        await Manager.findByIdAndUpdate({_id:userId},{$set:{
+          remainingLeaveDays:cuurentUserDays+days
+        }})
+      }
         await UserLeave.findByIdAndUpdate({_id:leaveId},{$set:{
             status
         }})
          return res.json({data:'Leave Cancelled succefully',status:200});
-    //   })
     }
     catch(err){
          res.json({data:err,status:400});
