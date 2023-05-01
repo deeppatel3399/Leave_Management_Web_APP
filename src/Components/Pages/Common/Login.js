@@ -4,6 +4,7 @@ import { NavLink } from 'react-router-dom';
 import '../../../App.css';
 import {useNavigate } from 'react-router-dom';
 
+
 const Login = () => {
 
  const navigate = useNavigate();
@@ -101,7 +102,7 @@ const Login = () => {
  
  useEffect(()=>{
 
-    window.localStorage.clear();
+    // window.localStorage.clear();
 
     if(email==="")
     {

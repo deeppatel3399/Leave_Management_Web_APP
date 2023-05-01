@@ -5,23 +5,23 @@ import Navbar from "../../Navbar";
 import { useEffect, useState, useCallback } from "react";
 import { IoIosPeople } from "react-icons/io";
 import nodata from "../../../Images/nodata.png";
-import {FaChartPie} from 'react-icons/fa';
+import { FaChartPie } from "react-icons/fa";
 import PieChart from "./PieChart";
 
 const ManagerDash = () => {
-  const [employData, setEmployData] = useState([]);
-  const [managerData, setManagerData] = useState([]);
+  // const [employData, setEmployData] = useState([]);
+  // const [managerData, setManagerData] = useState([]);
   const [leaveList, setLeaveList] = useState([]);
   const [employName, setEmployName] = useState();
 
+  const [allList, setAllList] = useState([]);
+
   const [activeBtn, setActiveBtn] = useState(1);
 
-  const[showStats,setShowStats] = useState(false);
+  const [showStats, setShowStats] = useState(false);
 
-  const [isEmployeeDataLoading, setIsEmployeeDataloading] = useState(true);
-  const [isManagerDataLoading, setIsManagerDataloading] = useState(true);
   const [isLeaveDataLoading, setIsLeaveDataloading] = useState(true);
-
+  const [isAllListLodaing, setIsAllListLodaing] = useState(true);
 
   const fetchData = useCallback(() => {
     axios
@@ -41,25 +41,30 @@ const ManagerDash = () => {
         managerId,
       })
       .then((data) => {
-        setEmployData(data.data.employeeData);
-        setManagerData(data.data.managerData);
-        setIsEmployeeDataloading(false);
-        setIsManagerDataloading(false);
-        if (data.data.employeeData.length > 0) {
+        if (
+          data.data.employeeData.length > 0 ||
+          data.data.managerData.length > 0
+        ) {
           fetchLeave(data.data.employeeData[0]._id);
           setEmployName(
             data.data.employeeData[0].fname +
               " " +
               data.data.employeeData[0].lname
           );
-        } else if (data.data.managerData.length > 0) {
-          fetchLeave(data.data.managerData[0]._id);
-          setEmployName(
-            data.data.managerData[0].fname +
-              " " +
-              data.data.managerData[0].lname
-          );
+          setAllList(data.data.employeeData.concat(data.data.managerData));
+          console.log(data.data.employeeData.concat(data.data.managerData));
+          setIsAllListLodaing(false);
+        } else if (
+          data.data.employeeData.length === 0 ||
+          data.data.managerData.length === 0
+        ) {
+          setIsAllListLodaing(false);
         }
+        // else
+        // {
+        //   setIsLeaveDataloading(true);
+        //   setIsAllListLodaing(true);
+        // }
       });
   }, []);
 
@@ -92,7 +97,7 @@ const ManagerDash = () => {
           </h1>
           <hr className="w-10/12" />
 
-          {isEmployeeDataLoading === true || isManagerDataLoading === true ? (
+          {isAllListLodaing === true ? (
             <div
               role="status"
               className="w-10/12 mt-10 space-y-4 border border-gray-200 divide-y divide-gray-200 rounded shadow animate-pulse dark:divide-gray-700 md:p-6 dark:border-gray-700"
@@ -134,8 +139,8 @@ const ManagerDash = () => {
               </div>
               <span className="sr-only">Loading...</span>
             </div>
-          ) : employData.length > 0 ? (
-            employData.map((val, ind) => (
+          ) : allList.length > 0 ? (
+            allList.map((val, ind) => (
               <div className="flex justify-center align-middle" key={ind}>
                 <div
                   key={ind}
@@ -144,10 +149,8 @@ const ManagerDash = () => {
                   }`}
                   value={activeBtn}
                   onClick={() => {
-                    fetchLeave(employData[ind]._id);
-                    setEmployName(
-                      employData[ind].fname + " " + employData[ind].lname
-                    );
+                    fetchLeave(val._id);
+                    setEmployName(val.fname + " " + val.lname);
                     setActiveBtn(ind + 1);
                     setShowStats(false);
                   }}
@@ -158,70 +161,112 @@ const ManagerDash = () => {
                   </div>
                 </div>
 
-                
-                <div className="bg-red-500 rounded-full w-6 h-6 text-center font-bold text-xs border-2 border-black text-white flex justify-center align-middle items-center -ml-3 mt-3">4</div>
+                <div className="bg-red-500 rounded-full w-6 h-6 text-center font-bold text-xs border-2 border-black text-white flex justify-center align-middle items-center -ml-3 mt-3">
+                  4
+                </div>
 
-                <button 
-                className={` text-center  flex flex-row justify-evenly rounded-lg p-5 my-5 ml-1 text-white hover:bg-primary cursor-pointer ${
+                <button
+                  className={` text-center  flex flex-row justify-evenly rounded-lg p-5 my-5 ml-1 text-white hover:bg-primary cursor-pointer ${
                     activeBtn === ind + 1 ? "bg-primary" : "bg-primary-dark"
                   }`}
                   onClick={() => {
-                    fetchLeave(employData[ind]._id);
-                    setEmployName(
-                      employData[ind].fname + " " + employData[ind].lname
-                    );
+                    fetchLeave(val._id);
+                    setEmployName(val.fname + " " + val.lname);
                     setActiveBtn(ind + 1);
                     setShowStats(!showStats);
-                  }}
-                  >
-                  <FaChartPie size={30}/>
-                </button>
-              </div>
-            ))
-          ) : managerData.length > 0 ? (
-            managerData.map((val, ind) => (
-              <div className="flex justify-center align-middle" key={ind}>
-                <div
-                  key={ind}
-                  className={`w-72 text-center  flex flex-row justify-evenly rounded-lg p-5 my-5 hover:bg-primary cursor-pointer ${
-                    activeBtn === ind + 1 ? "bg-primary" : "bg-primary-dark"
-                  }`}
-                  value={activeBtn}
-                  onClick={() => {
-                    fetchLeave(managerData[ind]._id);
-                    setEmployName(
-                      managerData[ind].fname + " " + managerData[ind].lname
-                    );
-                    setActiveBtn(ind + 1);
-                    setShowStats(false);
                   }}
                 >
-                  <div className="font-bold text-xl text-white">{ind + 1}</div>
-                  <div className="font-bold text-xl text-white">
-                    {val.fname + " " + val.lname}
-                  </div>
-
-                </div>
-                <button 
-                className={` text-center  flex flex-row justify-evenly rounded-lg p-5 my-5 ml-1 text-white hover:bg-primary cursor-pointer ${
-                    activeBtn === ind + 1 ? "bg-primary" : "bg-primary-dark"
-                  }`}
-                  onClick={() => {
-                    fetchLeave(managerData[ind]._id);
-                    setEmployName(
-                      managerData[ind].fname + " " + managerData[ind].lname
-                    );
-                    setActiveBtn(ind + 1);
-                    setShowStats(!showStats);
-                  }}>
-                  <FaChartPie size={30}/>
+                  <FaChartPie size={30} />
                 </button>
               </div>
             ))
-          )
-          // :employData.length>0&&managerData.length>0?
-          //    setEmployData(...employData,...managerData)
-          :(
+          ) : (
+            // :
+            // employData.length > 0 ? (
+            //   employData.map((val, ind) => (
+            //     <div className="flex justify-center align-middle" key={ind}>
+            //       <div
+            //         key={ind}
+            //         className={`w-72 text-center  flex flex-row justify-evenly rounded-lg p-5 my-5 hover:bg-primary cursor-pointer ${
+            //           activeBtn === ind + 1 ? "bg-primary" : "bg-primary-dark"
+            //         }`}
+            //         value={activeBtn}
+            //         onClick={() => {
+            //           fetchLeave(employData[ind]._id);
+            //           setEmployName(
+            //             employData[ind].fname + " " + employData[ind].lname
+            //           );
+            //           setActiveBtn(ind + 1);
+            //           setShowStats(false);
+            //         }}
+            //       >
+            //         <div className="font-bold text-xl text-white">{ind + 1}</div>
+            //         <div className="font-bold text-xl text-white">
+            //           {val.fname + " " + val.lname}
+            //         </div>
+            //       </div>
+
+            //       <div className="bg-red-500 rounded-full w-6 h-6 text-center font-bold text-xs border-2 border-black text-white flex justify-center align-middle items-center -ml-3 mt-3">4</div>
+
+            //       <button
+            //       className={` text-center  flex flex-row justify-evenly rounded-lg p-5 my-5 ml-1 text-white hover:bg-primary cursor-pointer ${
+            //           activeBtn === ind + 1 ? "bg-primary" : "bg-primary-dark"
+            //         }`}
+            //         onClick={() => {
+            //           fetchLeave(employData[ind]._id);
+            //           setEmployName(
+            //             employData[ind].fname + " " + employData[ind].lname
+            //           );
+            //           setActiveBtn(ind + 1);
+            //           setShowStats(!showStats);
+            //         }}
+            //         >
+            //         <FaChartPie size={30}/>
+            //       </button>
+            //     </div>
+            //   ))
+            // )
+            // : managerData.length > 0 ? (
+            //   managerData.map((val, ind) => (
+            //     <div className="flex justify-center align-middle" key={ind}>
+            //       <div
+            //         key={ind}
+            //         className={`w-72 text-center  flex flex-row justify-evenly rounded-lg p-5 my-5 hover:bg-primary cursor-pointer ${
+            //           activeBtn === ind + 1 ? "bg-primary" : "bg-primary-dark"
+            //         }`}
+            //         value={activeBtn}
+            //         onClick={() => {
+            //           fetchLeave(managerData[ind]._id);
+            //           setEmployName(
+            //             managerData[ind].fname + " " + managerData[ind].lname
+            //           );
+            //           setActiveBtn(ind + 1);
+            //           setShowStats(false);
+            //         }}
+            //       >
+            //         <div className="font-bold text-xl text-white">{ind + 1}</div>
+            //         <div className="font-bold text-xl text-white">
+            //           {val.fname + " " + val.lname}
+            //         </div>
+
+            //       </div>
+            //       <button
+            //       className={` text-center  flex flex-row justify-evenly rounded-lg p-5 my-5 ml-1 text-white hover:bg-primary cursor-pointer ${
+            //           activeBtn === ind + 1 ? "bg-primary" : "bg-primary-dark"
+            //         }`}
+            //         onClick={() => {
+            //           fetchLeave(managerData[ind]._id);
+            //           setEmployName(
+            //             managerData[ind].fname + " " + managerData[ind].lname
+            //           );
+            //           setActiveBtn(ind + 1);
+            //           setShowStats(!showStats);
+            //         }}>
+            //         <FaChartPie size={30}/>
+            //       </button>
+            //     </div>
+            //   ))
+            // )
             <div className="text-center my-5">
               <h1 className="text-lg font-bold text-error">
                 No Employee / Manager Found...
@@ -399,12 +444,12 @@ const ManagerDash = () => {
               </div>
             ))
           )}
-          { showStats===true?
-          <div className="fixed justify-center items-center pt-20 bg-slate-500 bg-opacity-70 backdrop-blur-sm w-full h-full">
-            <PieChart data={leaveList}/>
-          </div>
-          :null
-           }
+
+          {showStats === true ? (
+            <div className="fixed justify-center items-center pt-20 bg-slate-500 bg-opacity-70 backdrop-blur-sm w-full h-full">
+              <PieChart data={leaveList} />
+            </div>
+          ) : null}
         </div>
       </div>
     </>

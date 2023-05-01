@@ -1,0 +1,18 @@
+{
+  "files": {
+    "main.css": "/static/css/main.37a9c656.css",
+    "main.js": "/static/js/main.f955fb3a.js",
+    "static/js/787.355f7509.chunk.js": "/static/js/787.355f7509.chunk.js",
+    "static/media/nodata.png": "/static/media/nodata.fdc5ec4efba74b557901.png",
+    "static/media/LMS-LOGO.png": "/static/media/LMS-LOGO.af7e25380c00b6576912.png",
+    "static/media/test2.xlsx": "/static/media/test2.fb115709117973a6c4d6.xlsx",
+    "index.html": "/index.html",
+    "main.37a9c656.css.map": "/static/css/main.37a9c656.css.map",
+    "main.f955fb3a.js.map": "/static/js/main.f955fb3a.js.map",
+    "787.355f7509.chunk.js.map": "/static/js/787.355f7509.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.37a9c656.css",
+    "static/js/main.f955fb3a.js"
+  ]
+}

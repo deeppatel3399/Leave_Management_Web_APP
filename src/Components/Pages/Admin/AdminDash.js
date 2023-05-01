@@ -6,7 +6,9 @@ import EmployeeEditCard from "./EmployeeEditCard";
 import ManagerEditCard from "./ManagerEditCard";
 import { read, utils } from "xlsx";
 import templatefile from '../../../assets/test2.xlsx';
-
+import OrgTree from "./OrgTree";
+import {GiFamilyTree} from 'react-icons/gi';
+import ColoredDemo from "./primeReactOrgTree";
 
 const AdminDash = () => {
   const [managerData, setManagerData] = useState([]);
@@ -25,6 +27,8 @@ const AdminDash = () => {
   const [managerEditData, setManagerEditData] = useState(null);
   const [employeeEditData, setEmployeeEditData] = useState(null);
   const [insertDisVal, setInsertDisVal] = useState(true);
+
+  const [orgTreeVal,setOrgTreeVal] = useState(false);
 
   const [xlFile, setXlFile] = useState(null);
   const [xlData, setXlData] = useState([]);
@@ -55,41 +59,50 @@ const AdminDash = () => {
   }
 
   const readXlData = (e) => {
-    const file = e.target.files[0];
-    const fileName = file.name;
-    const extension = fileName.split(".").pop();
-    setXlFile(file);
-    if (file) {
+
+    if(e.target.files[0])
+    {
       setInsertDisVal(false);
-    } else {
-      setInsertDisVal(true);
-    }
-
-    const reader = new FileReader();
-
-    reader.onload = (e) => {
-      const data = e.target.result;
-      let sheet;
-      try {
-        sheet = read(data, { type: "array" });
-        if(extension==="xlsx"||extension==="csv"||extension==="tsv"||extension==="ods"||extension==="xml")
-        {
-          setInsertDisVal(false);
-        }
-        else
-        {
-          setInsertDisVal(true);
-          alert("Incorrect File Extension");  
-        }
-      } catch (e) {
+      const file = e.target.files[0];
+      const fileName = file.name;
+      const extension = fileName.split(".").pop();
+      setXlFile(file);
+      if (file) {
+        setInsertDisVal(false);
+      } else {
         setInsertDisVal(true);
       }
-      const sheetName = sheet.SheetNames[0];
-      const workSheet = sheet.Sheets[sheetName];
-      const res = utils.sheet_to_json(workSheet);
-      setXlData(res);
-    };
-    reader.readAsArrayBuffer(file);
+  
+      const reader = new FileReader();
+  
+      reader.onload = (e) => {
+        const data = e.target.result;
+        let sheet;
+        try {
+          sheet = read(data, { type: "array" });
+          if(extension==="xlsx"||extension==="csv"||extension==="tsv"||extension==="ods"||extension==="xml")
+          {
+            setInsertDisVal(false);
+          }
+          else
+          {
+            setInsertDisVal(true);
+            alert("Incorrect File Extension");  
+          }
+        } catch (e) {
+          setInsertDisVal(true);
+        }
+        const sheetName = sheet.SheetNames[0];
+        const workSheet = sheet.Sheets[sheetName];
+        const res = utils.sheet_to_json(workSheet);
+        setXlData(res);
+      };
+      reader.readAsArrayBuffer(file);
+    }
+    else
+    {
+      setInsertDisVal(true);
+    }
   };
 
   const uploadData = () => {
@@ -115,7 +128,8 @@ const AdminDash = () => {
       <Navbar />
 
       <div className="grid grid-cols-12">
-        <div className="col-span-2 h-screen w-full bg-light px-6 py-8">
+        <div className="col-span-2 h-[92vh] w-full bg-light px-6 pt-8 flex flex-col justify-between items-center">
+          <div>
           <button
             value={activeBtn}
             onClick={() => {
@@ -164,6 +178,22 @@ const AdminDash = () => {
           >
             <i className="fa-solid fa-list"></i> Employee List
           </button>
+          </div>
+
+          <button className={`
+          bg-primary hover:bg-primary-dark 
+          text-center text-white font-bold  w-48 mb-20 flex justify-center items-center rounded-md px-2
+          ${activeBtn===4?"bg-primary-dark":""}
+          `}
+
+          value={activeBtn} 
+          onClick={()=>{setActiveBtn(4);setOrgTreeVal(!orgTreeVal);}}>
+            <p className="flex justify-center">
+            <GiFamilyTree size={40}/>
+            <span className="ml-2 text-md font-bold">Organization Tree</span>
+            </p>
+          </button>
+
         </div>
 
         <div className="col-span-10  w-full p-10 flex flex-col items-center">
@@ -173,7 +203,7 @@ const AdminDash = () => {
                 .slice(-4)
                 .reverse()
                 .map((val, ind) => (
-                  <div className="col-span-3 basis-1/2 pb-5" key={ind}>
+                  <div className="col-span-3 basis-1/2 pb-3" key={ind}>
                     <LatestLeave
                       name={val.name||""}
                       fromDate={new Date(val.fromDate).toLocaleDateString(
@@ -457,8 +487,23 @@ const AdminDash = () => {
           managerDataId={managerEditData._id}
           superManagerId={managerEditData.superManagerId}
         />
-      ) : null}
+      ) : null
+      }
+
+      {
+        orgTreeVal===true?
+        <div className="absolute top-14 left-64 w-[80vw]">
+        {/* // <div className="absolute top-14"> */}
+        {/* <ColoredDemo/> */}
+        <OrgTree/>
+        </div>
+        :
+        null
+      }
     </div>
+
+
+
   );
 };
 
