@@ -36,7 +36,7 @@ const OrgTree = () => {
       pid: 1, 
       name: item.fname+" "+item.lname,
       title: "Super Manager",
-      img: 'https://cdn.balkan.app/shared/2.jpg'
+      img: 'https://www.kindpng.com/picc/m/495-4952535_create-digital-profile-icon-blue-user-profile-icon.png'
       }
       );
       let count = 0;
@@ -49,7 +49,7 @@ const OrgTree = () => {
               pid: test.length-count, 
               name: val.fname+" "+val.lname,
               title: "Manager",
-              img: 'https://cdn.balkan.app/shared/2.jpg'
+              img: 'https://www.kindpng.com/picc/m/495-4952535_create-digital-profile-icon-blue-user-profile-icon.png'
               }
             );
             count = count + 1;
@@ -62,7 +62,7 @@ const OrgTree = () => {
                   pid: test.length-count2, 
                   name: e.fname+" "+e.lname,
                   title: "Employee",
-                  img: 'https://cdn.balkan.app/shared/2.jpg'
+                  img: 'https://www.kindpng.com/picc/m/495-4952535_create-digital-profile-icon-blue-user-profile-icon.png'
                   }
                 );
                 count = count + 1;
@@ -80,7 +80,7 @@ const OrgTree = () => {
                 pid: test.length-count, 
                 name: val.fname+" "+val.lname,
                 title: "Employee",
-                img: 'https://cdn.balkan.app/shared/2.jpg'
+                img: 'https://www.kindpng.com/picc/m/495-4952535_create-digital-profile-icon-blue-user-profile-icon.png'
                 }
               );
               count = count + 1;
